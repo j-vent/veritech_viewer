@@ -15,10 +15,12 @@
     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    <!--<link rel="icon" type="image/png" href="{% static 'icon.png' %}"/>-->
     <link href="navbar-fixed-top.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    <link rel="styleheset" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="{% static 'style.css' %}" rel="stylesheet">
+
 </head>
 <body>
 <header>
@@ -41,10 +43,17 @@
             </ul>
         </div>
     </nav>
+    <br/>
+
+    <br/>
+    <br/>
+    <br/>
     <div class="container">
-         <img src="{% static 'logo.png' %}" style="text-align:center;width:600px; height:400px"/>
+         <img src="{% static 'logo.png' %}" style="text-align:center;width:400px; height:133px; object-fit:cover"/>
     </div>
 </header>
+<br/>
+    <br/>
 {% block content %}
     {% endblock %}
 </body>

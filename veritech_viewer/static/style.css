@@ -13,10 +13,27 @@ input[type=number] {
 }
 
 .filter-panel{
+  float:left;
   width:25%;
   background-color:#bff4ff;
   padding:10px;
+  margin: 10px 20px 0px 0px;
+}
+.sessions{
+  float:right;
+  width:70%;
+  padding:10px;
+   margin: 10px 0px 00px 0px;
+
 }
 
+.session{
+  border: 2px solid #abc8cf;
+  border-radius: 10px;
+  margin: 10px 0px 00px 0px;
 
+}
 
+.session p{
+    margin:5px 0px 5px 5px;
+}

@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -17,7 +18,7 @@
     <link href="navbar-fixed-top.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+    <link href="{% static 'style.css' %}" rel="stylesheet">
 </head>
 <body>
 <header>
@@ -40,7 +41,12 @@
             </ul>
         </div>
     </nav>
+    <div class="container">
+         <img src="{% static 'logo.png' %}" style="text-align:center;width:600px; height:400px"/>
+    </div>
 </header>
+{% block content %}
+    {% endblock %}
 </body>
 
 </html>

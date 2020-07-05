@@ -32,7 +32,10 @@ input[type=number] {
   border: 2px solid #abc8cf;
   border-radius: 10px;
   margin: 0px 0px 10px 0px;
+}
 
+div.session:hover{
+   background-color:#bff4ff;
 }
 
 .session p{
@@ -45,3 +48,5 @@ input[type=number] {
   margin-right: auto;
   width: 50%;
 }
+
+tr:nth-child(even) {background-color: #f2f2f2;}

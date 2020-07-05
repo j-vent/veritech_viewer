@@ -5,3 +5,6 @@ from .models import Session
 
 def home(request):
     return render(request, 'index.html')
+
+def booklet(request):
+    return render(request, 'booklet.html')

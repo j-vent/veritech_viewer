@@ -1,0 +1,47 @@
+
+/* Disable arrows in number form in Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* for Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.filter-panel{
+  float:left;
+  width:25%;
+  background-color:#bff4ff;
+  border-radius: 10px;
+  padding:10px;
+  margin: 10px 20px 0px 0px;
+}
+.sessions{
+  float:right;
+  width:70%;
+  padding:10px;
+   margin: 0px 0px 00px 0px;
+}
+
+.session{
+  border: 2px solid #abc8cf;
+  border-radius: 10px;
+  margin: 0px 0px 10px 0px;
+
+}
+
+.session p{
+    margin:5px 0px 5px 5px;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}

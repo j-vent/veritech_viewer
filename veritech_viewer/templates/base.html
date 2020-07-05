@@ -18,7 +18,8 @@
     <link href="navbar-fixed-top.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <link href="{% static 'style1.css' %}" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'icon.png' %}"/>
 </head>
 <body>
 <header>
@@ -30,10 +31,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Sessions<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'home' %}">Sessions<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Booklets</a>
+                    <a class="nav-link" href="{% url 'booklets' %}">Booklets</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Questions</a>
@@ -41,10 +42,17 @@
             </ul>
         </div>
     </nav>
-    <div class="container">
-         <img src="{% static 'logo.png' %}" style="text-align:center;width:600px; height:400px"/>
+    <br/>
+
+    <br/>
+    <br/>
+    <br/>
+    <div class="center">
+         <img src="{% static 'logo.png' %}" style="width:400px; height:233px; object-fit:cover"/>
     </div>
 </header>
+<br/>
+    <br/>
 {% block content %}
     {% endblock %}
 </body>

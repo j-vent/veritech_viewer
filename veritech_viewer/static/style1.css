@@ -17,6 +17,7 @@ input[type=number] {
   float:left;
   width:25%;
   background-color:#bff4ff;
+  border-radius: 10px;
   padding:10px;
   margin: 10px 20px 0px 0px;
 }
@@ -24,17 +25,28 @@ input[type=number] {
   float:right;
   width:70%;
   padding:10px;
-   margin: 10px 0px 00px 0px;
-
+   margin: 0px 0px 00px 0px;
 }
 
 .session{
   border: 2px solid #abc8cf;
   border-radius: 10px;
-  margin: 10px 0px 00px 0px;
+  margin: 0px 0px 10px 0px;
+}
 
+div.session:hover{
+   background-color:#bff4ff;
 }
 
 .session p{
     margin:5px 0px 5px 5px;
 }
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}

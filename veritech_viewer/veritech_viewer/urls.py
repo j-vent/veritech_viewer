@@ -19,5 +19,6 @@ import session.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', session.views.home, name='home'),
-    path('booklets/', session.views.booklet, name='booklets')
+    path('booklets/', session.views.booklets, name='booklets'),
+    path('questions/', session.views.questions, name='questions')
 ]

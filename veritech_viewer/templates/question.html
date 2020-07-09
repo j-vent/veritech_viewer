@@ -7,26 +7,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Booklets</title>
-    <link href="{% static 'style1.css' %}"  rel="stylesheet">
-</head>
-<body>
-<div class="filter-panel" >
-    <form>
-        <!-- group into panel div -->
-        <h4>Filter By:</h4>
-        <div class="form-group" >
-            <label for="student_id">Student ID</label>
-            <input type="number" class="form-control" id="student_id" placeholder="Enter student ID #">
-        </div>
-        <div class="form-group">
-            <label for="session_id">Student ID</label>
-            <input type="number" class="form-control" id="session_id" placeholder="Enter session ID #">
-        </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
-    </form>
-</div>
+    <title>Questions</title>
+    {# Include FontAwesome; required for icon display #}
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
 
+    {# Include Bootstrap 4 and jQuery #}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'style1.css' %}"  rel="stylesheet">
+
+</head>
+
+<body>
+<div class = "container" >
+    <div class="row">
+        <div class = "question">
+            <div class = "question-text" style="float:left; margin-right: 200px;">
+                <span>Question 1.</span>
+                <i class="fa fa-check-circle fa-3x"></i>
+                <br/>
+                <p>Correct/Wrong Prediction:</p>
+                <p>Correct Answer:</p>
+                <p>Prediction: </p>
+            </div>
+            <div class = "question-img" style="float:right">
+                <img src="{% static 'test.png' %}"/>
+                <img src="{% static 'test.png' %}"/>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
 </body>
 {% endblock %}
+
 </html>
+<script type="text/javascript" src="/path/to/jquery.js"></script>
+<script type="text/javascript" src="/path/to/moment.js"></script>
+<script type="text/javascript" src="/path/to/tempusdominus-bootstrap-4.min.js"></script>

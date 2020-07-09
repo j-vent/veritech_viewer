@@ -50,3 +50,12 @@ div.session:hover{
 }
 
 tr:nth-child(even) {background-color: #f2f2f2;}
+
+.question-text{
+  float:left;
+  margin-left: 50px;
+}
+
+.question-img{
+  float:right;
+}

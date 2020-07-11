@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', session.views.home, name='home'),
     path('pages/', session.views.pages, name='pages'),
-    path('questions/', session.views.questions, name='questions')
+    path('questions/', session.views.questions, name='questions'),
+    path('booklet/<int:post_id>/', session.views.booklet, name='booklet')
 ]

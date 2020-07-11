@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from .models import Session
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404
 from .forms import MyForm
-# Create your views here.
+from. models import Booklet
+from .models import Session
 
 def home(request):
     form = MyForm()
@@ -12,3 +14,8 @@ def pages(request):
 
 def questions(request):
     return render(request, 'question.html')
+
+def booklet(request, booklet_id):
+    spec_booklet = get_object_or_404(Booklet, pk=booklet_id)
+    # change to booklet.html later
+    return render(request, 'pages.html')

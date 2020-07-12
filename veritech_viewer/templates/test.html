@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Veritech</title>
+    {# Include FontAwesome; required for icon display #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    {# Include Bootstrap 4 and jQuery #}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    {# Django Tempus Dominus assets are included in `{{ form.media }}` #}
+    {{ form.media }}
+    <link href="{% static 'style1.css' %}"  rel="stylesheet">
+</head>
+
+
+
+<div class = "container" >
+
+    <h2>Student Marking</h2>
+
+    <div class="filter-panel" >
+        <form class = "md-form mr-auto mb-4" method="GET" action="{% url 'test' %}">
+            <!-- group into panel div -->
+            <h4>Filter By:</h4>
+            <div class="form-group" >
+                <label for="student_id">Student ID</label>
+                <input type="number" class="form-control" id="student_id" name ="student_id" placeholder="Enter student ID #">
+            </div>
+            <div class="form-group">
+                <label for="session_id">Session ID</label>
+                <input type="number" class="form-control" id="session_id" placeholder="Enter session ID #">
+            </div>
+
+            <div class="form-group">
+                 <p>Date and Time</p>
+                <div class="input-group date" id="datetimepicker6" data-target-input="nearest">
+                    <input id="picker" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker6"/>
+                    <div class="input-group-append" data-target="#datetimepicker6" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+
+    <div class="sessions">
+        {% for session in sessions.all %}
+        <p>Displaying Booklets for Student Name, {{session.studentID}}</p>
+
+        <div class="session">
+            <a href="#" class = "btn" style="width:parent">
+                <p>Session ID:{{session.student_id}} </p>
+                <p>Time:{{session.timestamp}}</p>
+                <p>Status:{{session.status}}</p>
+            </a>
+        </div>
+        {% endfor %}
+
+
+    </div>
+
+</div>
+<body>
+
+</body>
+{% endblock %}
+
+</html>
+<script type="text/javascript" src="/path/to/jquery.js"></script>
+<script type="text/javascript" src="/path/to/moment.js"></script>
+<script type="text/javascript" src="/path/to/tempusdominus-bootstrap-4.min.js"></script>

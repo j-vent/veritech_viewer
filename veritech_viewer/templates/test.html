@@ -40,13 +40,15 @@
             </div>
 
             <div class="form-group">
+                <!--
                  <p>Date and Time</p>
                 <div class="input-group date" id="datetimepicker6" data-target-input="nearest">
-                    <input id="picker" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker6"/>
+                    <input id="picker" type="text" class="form-control datetimepicker-input" name="date" data-target="#datetimepicker6"/>
                     <div class="input-group-append" data-target="#datetimepicker6" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                </div>
+                </div>-->
+                <input id="date" name="date" type="date"/>
             </div>
 
             <button type="submit" class="btn btn-primary">Filter</button>
@@ -54,14 +56,18 @@
     </div>
 
     <div class="sessions">
+
+        <p>date:{{dates}}</p>
+
         {% for session in sessions.all %}
         <p>Displaying Booklets for Student Name, {{session.studentID}}</p>
 
         <div class="session">
             <a href="#" class = "btn" style="width:parent">
-                <p>Session ID:{{session.student_id}} </p>
+                <p>Student ID:{{session.student_id}} </p>
                 <p>Time:{{session.timestamp}}</p>
                 <p>Status:{{session.status}}</p>
+
             </a>
         </div>
         {% endfor %}

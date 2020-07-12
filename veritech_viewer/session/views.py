@@ -4,8 +4,9 @@ from django.shortcuts import render, get_object_or_404
 from .forms import MyForm
 from. models import Booklet
 from .models import Session
+from datetime import datetime
 
-sessions = Session.objects
+
 
 def home(request):
     form = MyForm()
@@ -13,18 +14,21 @@ def home(request):
     # return render(request, 'index.html');
 
 def pages(request):
-    studentIDQuery = request.Get.get('student_id')
-    sessionQuery = request.Get.get('session_id')
-    filtered_sessions = sessions.filter(student_id=studentIDQuery)
+
     return render(request, 'pages.html')
 
+#07%2F15%2F2020+10%3A15+PM
 def test(request):
+    form = MyForm()
+    sessions = Session.objects
     studentID_Query = request.GET.get('student_id','')
-    if studentID_Query == '':
+    date_Query = request.GET.get('date','')
+
+    if studentID_Query == '' or date_Query == '':
         filtered_sessions = sessions
     else:
-        filtered_sessions = sessions.filter(student_id=studentID_Query)
-    return render(request,'test.html',{"sessions":filtered_sessions});
+        filtered_sessions = sessions.filter(student_id=studentID_Query, timestamp__date = date_Query)
+    return render(request,'test.html',{"sessions":filtered_sessions, 'form':form,"dates":date_Query});
 
 def questions(request):
     return render(request, 'question.html')

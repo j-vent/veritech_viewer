@@ -10,8 +10,19 @@ from datetime import datetime
 
 def home(request):
     form = MyForm()
-    return render(request, 'index.html',  {'form':form})
-    # return render(request, 'index.html');
+    sessions = Session.objects
+    studentID_Query = request.GET.get('student_id', '')
+    date_Query = request.GET.get('date', '')
+    # clean up later:
+    if studentID_Query == '' and date_Query == '':
+        filtered_sessions = sessions
+    elif studentID_Query =='' and date_Query != '':
+        filtered_sessions = sessions.filter(timestamp__date=date_Query)
+    elif studentID_Query != '' and date_Query == '':
+        filtered_sessions = sessions.filter(student_id=studentID_Query)
+    else:
+        filtered_sessions = sessions.filter(student_id=studentID_Query, timestamp__date=date_Query)
+    return render(request, 'index.html', {"sessions": filtered_sessions, 'form': form, "dates": date_Query});
 
 def pages(request):
 

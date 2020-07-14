@@ -15,8 +15,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
-    {# Django Tempus Dominus assets are included in `{{ form.media }}` #}
-    {{ form.media }}
+
     <link href="{% static 'style1.css' %}"  rel="stylesheet">
 </head>
 
@@ -56,18 +55,20 @@
 
         <p>date:{{dates}}</p>
 
-        {% for session in sessions.all %}
-        <p>Displaying Booklets for Student Name, {{session.studentID}}</p>
+        {% for booklet in booklets.all %}
+        <p>Displaying Booklets for Student Name, {{booklet.session.studentID}}</p>
 
         <div class="session">
             <a href="#" class = "btn" style="width:parent">
-                <p>Student ID:{{session.student_id}} </p>
-                <p>Time:{{session.timestamp}}</p>
-                <p>Status:{{session.status}}</p>
+                <p>id:{{booklet.id}} </p>
+                <p>Student ID:{{booklet.session.student_id}} </p>
+                <p>Time:{{booklet.session.timestamp}}</p>
+                <p>Status:{{booklet.session.status}}</p>
 
             </a>
         </div>
         {% endfor %}
+
 
 
     </div>

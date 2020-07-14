@@ -1,5 +1,4 @@
 from django.db import models
-
 from datetime import datetime
 from time import strftime
 
@@ -41,22 +40,21 @@ class Session(models.Model):
     # timestamp = models.DateTimeField(auto_now_add=True)
     timestamp = UnixTimestampField()
     status = models.PositiveIntegerField()
+    sessions = models.Manager()
 
 class Booklet(models.Model):
-    session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True, default=None)
-
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="booklet", null=True, default=None)
     BKLT_TYPE=((0, "10"),(1,"5"),(2,"4,3,3"))
     booklet_type = models.CharField(max_length=1, choices=BKLT_TYPE, default=0)
+    booklets = models.Manager()
 
 class Page(models.Model):
     booklet = models.ForeignKey(Booklet, on_delete=models.CASCADE, null=True, default=None)
-
     page_number = models.CharField(max_length=45)
     overall_mark = models.PositiveIntegerField()
 
 class Question(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE, null=True, default=None)
-
     marking_outcome = models.CharField(max_length=45)
     correct_ans = models.CharField(max_length=45)
     pred_regex = models.CharField(max_length=45)

@@ -23,9 +23,14 @@
 
 
 <div class = "container" >
-
     <h2>Student Marking</h2>
-
+    <p>{{my_id}}</p>
+    <p>booklet:{{booklet.booklet_type}}</p>
+    {% for page in pages.all %}
+    
+      <p>{{page.page_number}}</p>
+      <p>{{page.overall_mark}}</p>
+    {% endfor %}
     <div class="filter-panel" >
         <form class = "md-form mr-auto mb-4" method="GET" action="{% url 'test' %}">
             <!-- group into panel div -->

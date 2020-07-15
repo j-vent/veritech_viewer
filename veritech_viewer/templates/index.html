@@ -59,10 +59,11 @@
         <p>Displaying Booklets for Student Name, {{booklet.session.studentID}}</p>
 
         <div class="session">
-            <a href="#" class = "btn" style="width:parent">
+            <a href="{% url 'booklet' booklet.id %}" class = "btn" style="width:parent">
                 <p>id:{{booklet.id}} </p>
                 <p>Student ID:{{booklet.session.student_id}} </p>
                 <p>Time:{{booklet.session.timestamp}}</p>
+                <p>{{booklet.booklet_type}}</p>
                 <p>Status:{{booklet.session.status}}</p>
 
             </a>

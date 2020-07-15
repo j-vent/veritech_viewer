@@ -52,6 +52,7 @@ class Page(models.Model):
     booklet = models.ForeignKey(Booklet, on_delete=models.CASCADE, null=True, default=None)
     page_number = models.CharField(max_length=45)
     overall_mark = models.PositiveIntegerField()
+    pages = models.Manager()
 
 class Question(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE, null=True, default=None)

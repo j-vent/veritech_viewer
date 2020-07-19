@@ -19,17 +19,32 @@
 
 <body>
 <div class = "container" >
+    <h4>A</h4>
+    {% for question, predicted in page_a_info %}
+    <div class = "session question" style="height:140px">
 
-    {% for question, predicted in full %}
-    <div class = "question">
-
-        <div class = "question-text" style="float:left; margin-right: 200px;">
+        <div class = "question-text" style="float:left">
             <p>marking outcome: {{question.marking_outcome}}</p>
             <p>correct: {{question.correct_ans}}</p>
             <p>predicted: {{predicted}}</p>
             <p>regex: {{question.pred_regex}}</p>
             <br/>
-
+        </div>
+    </div>
+    {% endfor %}
+    <br/>
+    <h4>B</h4>
+    {% for question, predicted in page_b_info %}
+    <div class = "session question" style="height:140px">
+        <div class = "question-text" style="float:left">
+            <p>marking outcome: {{question.marking_outcome}}</p>
+            <p>correct: {{question.correct_ans}}</p>
+            <p>predicted: {{predicted}}</p>
+            <p>regex: {{question.pred_regex}}</p>
+            <br/>
+        </div>
+    </div>
+    {% endfor %}
             <!--
             <div class = "question-text" style="float:left; margin-right: 200px;">
                 <span>Question 1.</span>
@@ -44,9 +59,8 @@
                 <img src="{% static 'test.png' %}"/>
             </div> -->
 
-        </div>
-    </div>
-        {% endfor %}
+
+
 
     </div>
 </body>

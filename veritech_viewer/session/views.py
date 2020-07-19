@@ -33,12 +33,15 @@ def home(request):
     # TODO: remove [] from list, convert to string
     return render(request, 'index.html', {"sessions": filtered_sessions, "dates": date_Query, "student_id": studentID_Query, "booklet_info": zip(filtered_booklets, booklet_mark_list), "booklets": filtered_booklets, "list":booklet_mark_list});
 
-def pages(request, page_id, page_id_b):
-    spec_page = Page.pages.all().filter(id=page_id)
-    filtered_questions = Question.questions.all().filter(page__in=spec_page)
-    predicted = []
+def pages(request, page_id_a, page_id_b):
+    spec_page_a = Page.pages.all().filter(id=page_id_a)
+    spec_page_b = Page.pages.all().filter(id=page_id_b)
+    filtered_questions_a = Question.questions.all().filter(page__in=spec_page_a)
+    filtered_questions_b = Question.questions.all().filter(page__in=spec_page_b)
+    predicted_a = []
+    predicted_b = []
 
-    for q in filtered_questions:
+    for q in filtered_questions_a:
         # predicted.append(q.pred_regex[2:-2])
         trim = q.pred_regex[2:-2]
         singledigit = re.search("^([0-9])$", trim)
@@ -48,9 +51,9 @@ def pages(request, page_id, page_id_b):
         or_then_bracket = re.search("^(([0-9])\|*)+\)\(([0-9])$", trim)
 
         if(singledigit):
-            predicted.append(trim)
+            predicted_a.append(trim)
         elif(doubledigit):
-            predicted.append(trim[0]+trim[3])
+            predicted_a.append(trim[0]+trim[3])
         elif(bracket_then_or):
             tens_digit = trim[0]
             ones_digit = trim[3:].split("|")
@@ -59,7 +62,7 @@ def pages(request, page_id, page_id_b):
                 if(i != 0):
                     result = result + " or "
                 result = result+ tens_digit + ones_digit[i]
-            predicted.append(result)
+            predicted_a.append(result)
         elif (or_then_bracket):
             tens_digit = trim[:-3].split("|")
             ones_digit = trim[-1]
@@ -68,12 +71,48 @@ def pages(request, page_id, page_id_b):
                 if (i != 0):
                     result = result + " or "
                 result = result + tens_digit[i] + ones_digit
-            print(result)
+            predicted_a.append(result)
         elif (single_bracket_or):
-            print(trim.replace("|", " or "))
-    zip(filtered_questions, predicted)
+            predicted_a.append(trim.replace("|", " or "))
+
+    for q in filtered_questions_b:
+        # predicted.append(q.pred_regex[2:-2])
+        trim = q.pred_regex[2:-2]
+        singledigit = re.search("^([0-9])$", trim)
+        doubledigit = re.search("^([0-9])\)\(([0-9])$", trim)
+        single_bracket_or = re.search("^(([0-9])\|)+", trim)
+        bracket_then_or = re.search("^([0-9])\)\((([0-9])\|*)+$", trim)
+        or_then_bracket = re.search("^(([0-9])\|*)+\)\(([0-9])$", trim)
+
+        if (singledigit):
+            predicted_b.append(trim)
+        elif (doubledigit):
+            predicted_b.append(trim[0] + trim[3])
+        elif (bracket_then_or):
+            tens_digit = trim[0]
+            ones_digit = trim[3:].split("|")
+            result = ""
+            for i in range(0, len(ones_digit)):
+                if (i != 0):
+                    result = result + " or "
+                result = result + tens_digit + ones_digit[i]
+            predicted_b.append(result)
+        elif (or_then_bracket):
+            tens_digit = trim[:-3].split("|")
+            ones_digit = trim[-1]
+            result = ""
+            for i in range(0, len(tens_digit)):
+                if (i != 0):
+                    result = result + " or "
+                result = result + tens_digit[i] + ones_digit
+            predicted_b.append(result)
+        elif (single_bracket_or):
+            predicted_b.append(trim.replace("|", " or "))
+
     # if(trim[1]==')' and trim[2]=='(' and trim[])
-    return render(request, 'question.html', {"questions":filtered_questions, "predicted":predicted, "pid":page_id, "full": zip(filtered_questions, predicted)})
+    return render(request, 'question.html', {"questions":filtered_questions_a, "predicted":predicted_a, "pid":page_id_a,
+                         "page_a_info": zip(filtered_questions_a, predicted_a),
+                                             "page_b_info": zip(filtered_questions_b, predicted_b)})
 
 def test(request):
     sessions = Session.objects
@@ -97,6 +136,13 @@ def booklet(request, booklet_id):
     # change to booklet.html later
     spec_booklet = Booklet.booklets.all().filter(id=booklet_id)
     filtered_pages = Page.pages.all().filter(booklet__in= spec_booklet).order_by('page_number')
+    num_of_questions = []
+    for p in filtered_pages:
+        spec_page = Page.pages.all().filter(id=p.id)
+        filtered_questions = Question.questions.all().filter(page__in=spec_page)
+        num_of_questions.append(len(filtered_questions))
+    print("numqs" , num_of_questions)
+
     a_id = []
     b_id = []
     page_numbers = []
@@ -110,23 +156,18 @@ def booklet(request, booklet_id):
             page_numbers.append(filtered_pages[i].page_number[:-1])
             a_id.append(filtered_pages[i].id)
             x = x + filtered_pages[i].overall_mark
+            y = num_of_questions[i]
         else:
             b_id.append(filtered_pages[i].id)
             # y + num of questions in page
-            mark = (x + filtered_pages[i].overall_mark) / (1)
+            mark = (str)(x + filtered_pages[i].overall_mark) + "/" +  (str)(y+ num_of_questions[i])
             correct.append(mark)
-            mark = 69 if mark == 6 else mark * 10
+            mark = (x + filtered_pages[i].overall_mark)/(y + num_of_questions[i])
+            mark = 69 if mark <= 0.6 else round(mark*100)
             marks.append(mark)
             x = y = mark = 0
 
             # y = y + # number of questions in page
-
-    print("pagenum", page_numbers)
-    print("a id",  a_id)
-    print("b id", b_id)
-    print(correct)
-    print(marks)
-
 
     # return render(request,'pages.html',{"my_id":booklet_id, "booklet":spec_booklet, "pages":filtered_pages, "test_id":2})
     return render(request,'pages.html',{"page_info": zip(page_numbers, a_id, b_id, correct, marks)})

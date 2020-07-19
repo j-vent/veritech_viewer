@@ -19,8 +19,18 @@
 
 <body>
 <div class = "container" >
-    <div class="row">
+
+    <p>pid:{{pid}}</p>
+
+        {% for question, predicted in full %}
         <div class = "question">
+            <p>marking outcome: {{question.marking_outcome}}</p>
+            <p>correct:{{question.correct_ans}}</p>
+            <p>regex: {{question.pred_regex}}</p>
+            <p>predicted: {{predicted}}</p>
+            <br/>
+
+            <!--
             <div class = "question-text" style="float:left; margin-right: 200px;">
                 <span>Question 1.</span>
                 <i class="fa fa-check-circle fa-3x"></i>
@@ -32,9 +42,9 @@
             <div class = "question-img" style="float:right">
                 <img src="{% static 'test.png' %}"/>
                 <img src="{% static 'test.png' %}"/>
-            </div>
+            </div> -->
 
-        </div>
+        {% endfor %}
 
 
     </div>

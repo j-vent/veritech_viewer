@@ -25,7 +25,7 @@ SECRET_KEY = '@a^)_0645ksedix2m++-p52heamd(dq1jo&+nz2uq4w*8(mhv9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.105.16.104', '50.65.117.214']
+ALLOWED_HOSTS = ['172.105.16.104', '50.65.117.214','127.0.0.1','localhost']
 
 
 # Application definition
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'session.apps.SessionConfig',
-    'tempus_dominus'
+
 ]
 
 MIDDLEWARE = [
@@ -78,7 +78,8 @@ WSGI_APPLICATION = 'veritech_viewer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': '/var/run/mysqld/mysqld.sock',
+        #'HOST': '/var/run/mysqld/mysqld.sock',
+        'HOST':  '172.105.16.104',
         'NAME': 'kumon_django',
         'USER': 'kumon-client',
         'PASSWORD': '9sVwbGeJP7ECd9Z5xZXUTH2D',

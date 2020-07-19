@@ -52,20 +52,15 @@
     </div>
 
     <div class="sessions">
-
-        <p>date:{{dates}}</p>
-
+        <p>Displaying Booklets for Student Name, Student ID number: {{student_id}}</p>
+        <p>Date: {{dates}}</p>
         {% for booklet in booklets.all %}
-        <p>Displaying Booklets for Student Name, {{booklet.session.studentID}}</p>
 
         <div class="session">
             <a href="{% url 'booklet' booklet.id %}" class = "btn" style="width:parent">
-                <p>id:{{booklet.id}} </p>
-                <p>Student ID:{{booklet.session.student_id}} </p>
-                <p>Time:{{booklet.session.timestamp}}</p>
-                <p>{{booklet.booklet_type}}</p>
-                <p>Status:{{booklet.session.status}}</p>
-
+                <p>Datetime: {{booklet.session.timestamp}}</p>
+                <p style="text-align:left">Booklet type: {{booklet.booklet_type}}</p>
+                <p style="text-align:left">Status:{{booklet.session.status}}</p>
             </a>
         </div>
         {% endfor %}

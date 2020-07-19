@@ -59,5 +59,7 @@ class Question(models.Model):
     marking_outcome = models.CharField(max_length=45)
     correct_ans = models.CharField(max_length=45)
     pred_regex = models.CharField(max_length=45)
+    questions = models.Manager();
+
 
 

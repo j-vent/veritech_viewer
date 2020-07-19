@@ -40,8 +40,10 @@ def pages(request, page_id_a, page_id_b):
     spec_page_b = Page.pages.all().filter(id=page_id_b)
     filtered_questions_a = Question.questions.all().filter(page__in=spec_page_a)
     filtered_questions_b = Question.questions.all().filter(page__in=spec_page_b)
+
     predicted_a = []
     predicted_b = []
+
     img_orig_a = []
     img_proc_a = []
     img_recog_a = []

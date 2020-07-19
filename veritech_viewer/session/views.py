@@ -19,9 +19,19 @@ def home(request):
         filtered_sessions = Session.sessions.all().filter(student_id=studentID_Query)
     else:
         filtered_sessions = Session.sessions.all().filter(student_id=studentID_Query, timestamp__date=date_Query)
-        
+
+
     filtered_booklets = Booklet.booklets.all().filter(session__in=filtered_sessions)
-    return render(request, 'index.html', {"sessions": filtered_sessions, "dates": date_Query, "student_id": studentID_Query, "booklets": filtered_booklets});
+    booklet_mark_list = []
+    for booklet in filtered_booklets:
+        page_mark_list = []
+        spec_booklet = Booklet.booklets.all().filter(id=booklet.id)
+        filtered_pages = Page.pages.all().filter(booklet__in=spec_booklet)
+        for page in filtered_pages:
+            page_mark_list.append(page.overall_mark)
+        booklet_mark_list.append(page_mark_list)
+    # TODO: remove [] from list, convert to string
+    return render(request, 'index.html', {"sessions": filtered_sessions, "dates": date_Query, "student_id": studentID_Query, "booklet_info": zip(filtered_booklets, booklet_mark_list), "booklets": filtered_booklets, "list":booklet_mark_list});
 
 def pages(request, page_id):
     spec_page = Page.pages.all().filter(id=page_id)
@@ -36,6 +46,7 @@ def pages(request, page_id):
         single_bracket_or = re.search("^(([0-9])\|)+",trim)
         bracket_then_or = re.search("^([0-9])\)\((([0-9])\|*)+$", trim)
         or_then_bracket = re.search("^(([0-9])\|*)+\)\(([0-9])$", trim)
+
         if(singledigit):
             predicted.append(trim)
         elif(doubledigit):
@@ -85,11 +96,30 @@ def booklet(request, booklet_id):
     # filtered_pages = Page.pages.all().filter(booklet__in=spec_booklet)
     # change to booklet.html later
     spec_booklet = Booklet.booklets.all().filter(id=booklet_id)
-    filtered_pages = Page.pages.all().filter(booklet__in= spec_booklet)
-    
+    filtered_pages = Page.pages.all().filter(booklet__in= spec_booklet).order_by('page_number')
+    page_numbers = []
+    correct = []
+    marks = []
+    x,y,mark = 0
+    for i in range(1,filtered_pages):
+        page_numbers.add(filtered_pages[i][:-1])
+        x = x + filtered_pages[i].overall_mark
+        # y = y + # number of questions in page
+        if(i % 2 == 0):
+            # y + num of questions in page
+            mark = (x+filtered_pages[i].overall_mark)/(y)
+            correct.append(mark)
+            mark = 69 if mark == 6 else mark * 10
+            marks.append(mark)
+            x,y,mark = 0
+
+
+
+
+
     # return render(request, 'pages.html', {"booklet":spec_booklet}, {"pages":filtered_pages})
     #return render(request, 'pages.html', {"booklet": spec_booklet}, {'id':booklet_id})
-    return render(request,'pages.html',{"my_id":booklet_id, "booklet":spec_booklet, "pages":filtered_pages})
+    return render(request,'pages.html',{"my_id":booklet_id, "booklet":spec_booklet, "pages":filtered_pages, "test_id":2})
 
 
 

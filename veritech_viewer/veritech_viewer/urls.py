@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', session.views.home, name='home'),
     path('test/',session.views.test,name='test'),
+    # path('page/<int:page_a_id>/<int:page_b_id>', session.views.pages, name='pages'),
     path('page/<int:page_id>/', session.views.pages, name='pages'),
     path('questions/', session.views.questions, name='questions'),
     path('booklet/<int:booklet_id>/', session.views.booklet, name='booklet')

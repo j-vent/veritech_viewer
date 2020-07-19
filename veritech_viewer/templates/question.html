@@ -20,14 +20,14 @@
 <body>
 <div class = "container" >
 
-    <p>pid:{{pid}}</p>
+    {% for question, predicted in full %}
+    <div class = "question">
 
-        {% for question, predicted in full %}
-        <div class = "question">
+        <div class = "question-text" style="float:left; margin-right: 200px;">
             <p>marking outcome: {{question.marking_outcome}}</p>
-            <p>correct:{{question.correct_ans}}</p>
-            <p>regex: {{question.pred_regex}}</p>
+            <p>correct: {{question.correct_ans}}</p>
             <p>predicted: {{predicted}}</p>
+            <p>regex: {{question.pred_regex}}</p>
             <br/>
 
             <!--
@@ -44,12 +44,11 @@
                 <img src="{% static 'test.png' %}"/>
             </div> -->
 
+        </div>
+    </div>
         {% endfor %}
 
-
     </div>
-
-</div>
 </body>
 {% endblock %}
 

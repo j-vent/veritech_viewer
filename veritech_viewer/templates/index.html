@@ -54,13 +54,15 @@
     <div class="sessions">
         <p>Displaying Booklets for Student Name, Student ID number: {{student_id}}</p>
         <p>Date: {{dates}}</p>
-        {% for booklet in booklets.all %}
 
-        <div class="session">
-            <a href="{% url 'booklet' booklet.id %}" class = "btn" style="width:parent">
-                <p>Datetime: {{booklet.session.timestamp}}</p>
-                <p style="text-align:left">Booklet type: {{booklet.booklet_type}}</p>
-                <p style="text-align:left">Status:{{booklet.session.status}}</p>
+        {% for booklet, marks in booklet_info %}
+
+        <div class="session" style="height: 135px">
+            <a href="{% url 'booklet' booklet.id %}" class = "btn" style="width:100%; height:100%">
+                <p style="text-align:left"><b>Datetime: </b>{{booklet.session.timestamp}}</p>
+                <p style="text-align:left"><b>Booklet type: </b>{{booklet.booklet_type}}</p>
+                <p style="text-align:left "><b>Status: </b>{{booklet.session.status}}</p>
+                <p style="text-align:left;"><b>Page marks: </b>{{marks}}</p>
             </a>
         </div>
         {% endfor %}

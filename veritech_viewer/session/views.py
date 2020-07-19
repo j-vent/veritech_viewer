@@ -51,10 +51,9 @@ def pages(request, page_id_a, page_id_b):
     for q in filtered_questions_a:
         # predicted.append(q.pred_regex[2:-2])
         orig,proc,recog = q.images.split(",")
-        img_root = "\root\images"
-        img_orig_a.append(os.path.join(img_root, orig+".png"))
-        img_proc_a.append(os.path.join(img_root, proc+".png"))
-        img_recog_a.append(os.path.join(img_root, recog+".png"))
+        img_orig_a.append(os.path.join('images', orig+".png"))
+        img_proc_a.append(os.path.join('images', proc+".png"))
+        img_recog_a.append(os.path.join('images', recog+".png"))
 
         trim = q.pred_regex[2:-2]
         singledigit = re.search("^([0-9])$", trim)

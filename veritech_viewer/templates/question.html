@@ -20,19 +20,25 @@
 <body>
 <div class = "container" >
     <h4>A</h4>
-    {% for question, predicted in page_a_info %}
+    {% for question, predicted, img_orig_a, img_proc_a, img_recog_a in page_a_info %}
     <div class = "session question" style="height:140px">
-
         <div class = "question-text" style="float:left">
             <p>marking outcome: {{question.marking_outcome}}</p>
             <p>correct: {{question.correct_ans}}</p>
             <p>predicted: {{predicted}}</p>
             <p>regex: {{question.pred_regex}}</p>
+            <p> {{img_orig_a}} </p>
+            <img src = {{img_orig_a}} />
+            <!--
+            <p>{{img_orig_a}}</p>
+            <p>{{img_proc_a}}</p>
+            <p>{{img_recog_a}}</p> -->
             <br/>
         </div>
     </div>
     {% endfor %}
     <br/>
+
     <h4>B</h4>
     {% for question, predicted in page_b_info %}
     <div class = "session question" style="height:140px">

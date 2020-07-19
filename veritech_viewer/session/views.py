@@ -3,7 +3,9 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from. models import Booklet, Session, Page, Question
 from datetime import datetime
+import os
 import re
+
 
 
 def home(request):
@@ -40,9 +42,20 @@ def pages(request, page_id_a, page_id_b):
     filtered_questions_b = Question.questions.all().filter(page__in=spec_page_b)
     predicted_a = []
     predicted_b = []
-
+    img_orig_a = []
+    img_proc_a = []
+    img_recog_a = []
+    # img_a = filtered_questions_a.values_list('images', flat=True)
+    # img_orig_a, img_proc_a, img_recog = img_a.split(",")
+    # print("ORIG A", img_orig_a)
     for q in filtered_questions_a:
         # predicted.append(q.pred_regex[2:-2])
+        orig,proc,recog = q.images.split(",")
+        img_root = "\root\images"
+        img_orig_a.append(os.path.join(img_root, orig+".png"))
+        img_proc_a.append(os.path.join(img_root, proc+".png"))
+        img_recog_a.append(os.path.join(img_root, recog+".png"))
+
         trim = q.pred_regex[2:-2]
         singledigit = re.search("^([0-9])$", trim)
         doubledigit = re.search("^([0-9])\)\(([0-9])$", trim)
@@ -111,7 +124,7 @@ def pages(request, page_id_a, page_id_b):
 
     # if(trim[1]==')' and trim[2]=='(' and trim[])
     return render(request, 'question.html', {"questions":filtered_questions_a, "predicted":predicted_a, "pid":page_id_a,
-                         "page_a_info": zip(filtered_questions_a, predicted_a),
+                         "page_a_info": zip(filtered_questions_a, predicted_a, img_orig_a, img_proc_a, img_recog_a),
                                              "page_b_info": zip(filtered_questions_b, predicted_b)})
 
 def test(request):

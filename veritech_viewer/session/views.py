@@ -33,7 +33,7 @@ def home(request):
     # TODO: remove [] from list, convert to string
     return render(request, 'index.html', {"sessions": filtered_sessions, "dates": date_Query, "student_id": studentID_Query, "booklet_info": zip(filtered_booklets, booklet_mark_list), "booklets": filtered_booklets, "list":booklet_mark_list});
 
-def pages(request, page_id):
+def pages(request, page_id, page_id_b):
     spec_page = Page.pages.all().filter(id=page_id)
     filtered_questions = Question.questions.all().filter(page__in=spec_page)
     predicted = []
@@ -97,29 +97,38 @@ def booklet(request, booklet_id):
     # change to booklet.html later
     spec_booklet = Booklet.booklets.all().filter(id=booklet_id)
     filtered_pages = Page.pages.all().filter(booklet__in= spec_booklet).order_by('page_number')
+    a_id = []
+    b_id = []
     page_numbers = []
     correct = []
     marks = []
-    x,y,mark = 0
-    for i in range(1,filtered_pages):
-        page_numbers.add(filtered_pages[i][:-1])
-        x = x + filtered_pages[i].overall_mark
-        # y = y + # number of questions in page
-        if(i % 2 == 0):
+    x = mark =  0
+    y = 1
+
+    for i in range(0,len(filtered_pages)):
+        if (i % 2 == 0):
+            page_numbers.append(filtered_pages[i].page_number[:-1])
+            a_id.append(filtered_pages[i].id)
+            x = x + filtered_pages[i].overall_mark
+        else:
+            b_id.append(filtered_pages[i].id)
             # y + num of questions in page
-            mark = (x+filtered_pages[i].overall_mark)/(y)
+            mark = (x + filtered_pages[i].overall_mark) / (1)
             correct.append(mark)
             mark = 69 if mark == 6 else mark * 10
             marks.append(mark)
-            x,y,mark = 0
+            x = y = mark = 0
+
+            # y = y + # number of questions in page
+
+    print("pagenum", page_numbers)
+    print("a id",  a_id)
+    print("b id", b_id)
+    print(correct)
+    print(marks)
 
 
-
-
-
-    # return render(request, 'pages.html', {"booklet":spec_booklet}, {"pages":filtered_pages})
-    #return render(request, 'pages.html', {"booklet": spec_booklet}, {'id':booklet_id})
-    return render(request,'pages.html',{"my_id":booklet_id, "booklet":spec_booklet, "pages":filtered_pages, "test_id":2})
-
+    # return render(request,'pages.html',{"my_id":booklet_id, "booklet":spec_booklet, "pages":filtered_pages, "test_id":2})
+    return render(request,'pages.html',{"page_info": zip(page_numbers, a_id, b_id, correct, marks)})
 
 

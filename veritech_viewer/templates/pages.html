@@ -24,17 +24,27 @@
 
 <div class = "container" >
     <div class="row">
+        <!--
         {% for page in pages.all %}
         {% if forloop.counter|divisibleby:2 %}
         <div class = "col-6">
             <div class="session">
                 <p><b>Page number: </b> {{page.page_number}}</p>
                 <p><b>Overall Mark: </b> {{page.overall_mark}}/10</p>
-                <a href="{% url 'pages' page.id %}" style="padding-left:5px;">View Questions</a>
+                <a href="{% url 'pages' page_id=page.id page_id_b=5 %}" style="padding-left:5px;">View Questions</a>
             </div>
         </div>
         {% endif %}
-         {% endfor %}
+        {% endfor %}-->
+        {% for page_num, a, b, c, m in page_info %}
+          <p>{{page_num}}</p>
+          <p>a: {{a}}</p>
+          <p>b: {{b}}</p>
+          <p>c: {{c}}</p>
+          <p>m: {{m}}}</p>
+        <
+        <a href="{% url 'pages' page_id=a page_id_b=b %}" style="padding-left:5px;">View Questions</a>
+        {% endfor %}
     </div>
 
     <br/>

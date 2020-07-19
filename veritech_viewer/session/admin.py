@@ -21,7 +21,7 @@ class PageAdmin(admin.ModelAdmin):
 
 class QuestionAdmin(admin.ModelAdmin):
     readonly_fields = ['id', ]
-    fields = ['page', 'marking_outcome', 'correct_ans', 'pred_regex']
+    fields = ['page', 'marking_outcome', 'correct_ans', 'pred_regex', 'images']
     list_display = ['id', 'page', 'marking_outcome']
 
 

@@ -22,17 +22,17 @@
 
      <h4>A</h4>
     {% for question, predicted, img_orig_a, img_proc_a, img_recog_a in page_a_info %}
-    <div class = "session question" style="height:140px">
-        <div class = "question-text" style="float:left">
-            <p>marking outcome: {{question.marking_outcome}}</p>
-            <p>correct: {{question.correct_ans}}</p>
-            <p>predicted: {{predicted}}</p>
-            <p>regex: {{question.pred_regex}}</p>
+    <div class = "session question" style="height:280px;">
+        <div class = "question-text">
+            <p style="text-align:left"><b>Marking outcome:</b> {{question.marking_outcome}}</p>
+            <p style="text-align:left"><b>Correct Answer: </b>{{question.correct_ans}}</p>
+            <p style="text-align:left"><b>Predicted Answer: </b>{{predicted}}</p>
+            <p style="text-align:left"><b>Regex: </b>{{question.pred_regex}}</p>
             <br/>
         </div>
         <div class = "question-img" style="float:right">
-            <img src="{% static img_orig_a %}"/>
-            <img src="{% static img_proc_a %}"/>
+            <img style = "height:250px; width:300px" src="{% static img_orig_a %}"/>
+            <img style = "height:250px; width:300px" src="{% static img_proc_a %}"/>
         </div>
 
     </div>

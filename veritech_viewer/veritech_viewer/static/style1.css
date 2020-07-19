@@ -55,7 +55,8 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 
 .question-text{
   float:left;
-  margin-left: 50px;
+  padding: 0px;
+
 }
 
 .question-img{

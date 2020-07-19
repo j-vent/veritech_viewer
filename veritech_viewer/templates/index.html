@@ -57,7 +57,7 @@
 
         {% for booklet, marks in booklet_info %}
 
-        <div class="session" style="height: 135px">
+        <div class="session" style="height: 145px">
             <a href="{% url 'booklet' booklet.id %}" class = "btn" style="width:100%; height:100%">
                 <p style="text-align:left"><b>Datetime: </b>{{booklet.session.timestamp}}</p>
                 <p style="text-align:left"><b>Booklet type: </b>{{booklet.booklet_type}}</p>

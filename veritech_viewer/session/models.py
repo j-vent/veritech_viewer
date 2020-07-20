@@ -46,6 +46,8 @@ class Booklet(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="booklet", null=True, default=None)
     BKLT_TYPE=((0, "10"),(1,"5"),(2,"4,3,3"))
     booklet_type = models.CharField(max_length=1, choices=BKLT_TYPE, default=0)
+    student_time_range = models.CharField(max_length=128, null=True)
+    scans = models.TextField(null=True)
     booklets = models.Manager()
 
 class Page(models.Model):

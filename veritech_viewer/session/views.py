@@ -6,8 +6,6 @@ from datetime import datetime
 import os
 import re
 
-
-
 def home(request):
     studentID_Query = request.GET.get('student_id', '')
     date_Query = request.GET.get('date', '')

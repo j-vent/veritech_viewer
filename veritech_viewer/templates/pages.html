@@ -23,37 +23,47 @@
 
 
 <div class = "container" >
+	<div class="row">
+		<div class="col-sm-6">
+			<h4>All Booklets</h4>
+			<div class="session question" style="height:165px;">
+				<div class = "question-text" style = "padding-top:15px">
+					<p style="text-align:left"><a href="/">Go to parent</a></p>
+					<br/>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<h4>Current Booklet</h4>
+			<div class = "session question" style="height:165px;">
+				<div class = "question-text" style = "padding-top:15px">
+					<p style="text-align:left"><b>Booklet ID:</b> {{ booklet.id }}</p>
+					<p style="text-align:left"><b>Booklet Type:</b> {{ booklet.booklet_type }}</p>
+					<p style="text-align:left"><b>Time Range:</b> {{ booklet.student_time_range }}</p>
+					<p style="text-align:left"><b>Page Range:</b> {{ booklet.page_range.0 }} - {{ booklet.page_range.1 }}</p>
+					<br/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <hr>
+
+    <h4>Pages</h4>
     <div class="row">
-        <!--
-        {% for page in pages.all %}
-        {% if forloop.counter|divisibleby:2 %}
-        <div class = "col-6">
-            <div class="session">
-                <p><b>Page number: </b> {{page.page_number}}</p>
-                <p><b>Overall Mark: </b> {{page.overall_mark}}/10</p>
-                <a href="{% url 'pages' page_id=page.id page_id_b=5 %}" style="padding-left:5px;">View Questions</a>
-            </div>
-        </div>
-        {% endif %}
-        {% endfor %}-->
         {% for page_num, a_id, b_id, correct, marks in page_info %}
           <div class = "col-6">
             <div class="session" style="height:135px">
-                <p><b>Page number: </b> {{page_num}}</p>
-                <p><b>Correct Questions: </b>{{correct}}</p>
-                <p><b>Page Mark: </b> {{marks}}</p>
-                <a href="{% url 'pages' page_id_a=a_id page_id_b=b_id %}" style="padding-left:5px;">View Questions</a>
+                <p style="padding-left:15px"><b>Page number: </b> {{page_num}}</p>
+                <p style="padding-left:15px"><b>Correct Questions: </b>{{correct}}</p>
+                <p style="padding-left:15px" ><b>Page Mark: </b> {{marks}}</p>
+                <p><a href="{% url 'pages' page_id_a=a_id page_id_b=b_id %}" style="padding-left:15px;">View Questions</a></p>
             </div>
         </div>
-
         {% endfor %}
     </div>
 
     <br/>
-
-
-
-
 
 </div>
 <body>
@@ -62,6 +72,3 @@
 {% endblock %}
 
 </html>
-<script type="text/javascript" src="/path/to/jquery.js"></script>
-<script type="text/javascript" src="/path/to/moment.js"></script>
-<script type="text/javascript" src="/path/to/tempusdominus-bootstrap-4.min.js"></script>

@@ -23,5 +23,6 @@ urlpatterns = [
     # path('page/<int:page_a_id>/<int:page_b_id>', session.views.pages, name='pages'),
     path('page/<int:page_id_a>/<int:page_id_b>', session.views.pages, name='pages'),
     path('questions/', session.views.questions, name='questions'),
-    path('booklet/<int:booklet_id>/', session.views.booklet, name='booklet')
+    path('booklet/<int:booklet_id>/', session.views.booklet, name='booklet'),
+    path('recording/',include('recording.urls') )
 ]

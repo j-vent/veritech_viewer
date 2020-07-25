@@ -14,13 +14,21 @@ input[type=number] {
 }
 
 .filter-panel{
-  float:left;
-  width:25%;
   background-color:#bff4ff;
   border-radius: 10px;
   padding:10px;
   margin: 10px 20px 0px 0px;
 }
+
+.filter-panel-index{
+  float:left;
+   width:25%;
+}
+
+filter-panel-record{
+  width: 80%;
+}
+
 .sessions{
   float:right;
   width:70%;

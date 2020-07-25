@@ -1,10 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Gradebook</title>
+    <link href="{% static 'style1.css' %}"  rel="stylesheet">
 </head>
+
 <body>
-  <h1>Test</h1>
+<div class = "filter-panel filter-panel-record">
+    <form class = "md-form mr-auto mb-4" method="GET" action="{% url 'recording' %}">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                 <label for="student_id">Student ID</label>
+                <input type="number" class="form-control" id="student_id" name ="student_id" placeholder="Enter student ID #">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="month">Date</label>
+                <input id="month"  class="form-control" name="month" type="month"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="/" class="btn btn-danger">Reset</a>
+
+
+        </div>
+    </form>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<h3 style="display:block">Gradebook for Student Name</h3>
+<br/>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Level</th>
+        <th scope="col">C/H</th>
+        <th scope="col">Booklet</th>
+        <th scope="col" colspan="10" >Scores for Page: </th>
+        <th scope="col">Comments</th>
+
+
+    </tr>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">1</th>
+        <th scope="col">2</th>
+        <th scope="col">3</th>
+        <th scope="col">4</th>
+        <th scope="col">5</th>
+        <th scope="col">6</th>
+        <th scope="col">7</th>
+        <th scope="col">8</th>
+        <th scope="col">9</th>
+        <th scope="col">10</th>
+        <th scope="col"></th>
+        <th scope="col"> </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>A</td>
+        <td></td>
+        <td>A171</td>
+        <td>6</td>
+        <td>4</td>
+        <td>5</td>
+        <td>9</td>
+        <td>10</td>
+        <td>10</td>
+        <td>9</td>
+        <td>8</td>
+        <td>6</td>
+        <td>9</td>
+        <td></td>
+        <td class = "btn-secondary">Edit</td>
+    </tr>
+    <tr>
+        <td>A</td>
+        <td></td>
+        <td>A172</td>
+        <td>8</td>
+        <td>8</td>
+        <td>9</td>
+        <td>9</td>
+        <td>10</td>
+        <td>6</td>
+        <td>9</td>
+        <td>8</td>
+        <td>7</td>
+        <td>10</td>
+        <td></td>
+        <td class = "btn-secondary">Edit</td>
+    </tr>
+    </tbody>
+</table>
 </body>
+{% endblock %}
 </html>

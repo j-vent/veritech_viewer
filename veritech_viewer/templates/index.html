@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
@@ -18,8 +17,6 @@
 
     <link href="{% static 'style1.css' %}"  rel="stylesheet">
 </head>
-
-
 
 <div class = "container" >
 
@@ -48,36 +45,42 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="/" class="btn btn-danger">Reset</a>
         </form>
     </div>
 
     <div class="sessions">
-        <p>Displaying Booklets for Student Name, Student ID number: {{student_id}}</p>
-        <p>Date: {{dates}}</p>
+        <div>
+            <div class="alert alert-primary" role="alert">
+                Showing
+                {% if student_id == "" %}
+                    all students
+                {% else %}
+                    submissions for student <b>{{ student_id }}</b>
+                {% endif %}
+                and
+                {% if dates == "" %}
+                    from all dates.
+                {% else %}
+                    on date <b>{{ dates }}</b>.
+                {% endif %}
+                Got {{ booklet_info|length }} results.
+            </div>
+        </div>
 
         {% for booklet, marks in booklet_info %}
-
-        <div class="session" style="height: 145px">
-            <a href="{% url 'booklet' booklet.id %}" class = "btn" style="width:100%; height:100%">
-                <p style="text-align:left"><b>Datetime: </b>{{booklet.session.timestamp}}</p>
-                <p style="text-align:left"><b>Booklet type: </b>{{booklet.booklet_type}}</p>
-                <p style="text-align:left "><b>Status: </b>{{booklet.session.status}}</p>
-                <p style="text-align:left;"><b>Page marks: </b>{{marks}}</p>
-            </a>
-        </div>
+            <div class="session" style="height: 170px">
+                <a href="{% url 'booklet' booklet.id %}" class = "btn" style="width:100%; height:100%">
+                    <p style="text-align:left"><b>Student ID: </b>{{booklet.session.student_id}}</p>
+                    <p style="text-align:left"><b>Marked At: </b>{{booklet.session.timestamp}}</p>
+                    <p style="text-align:left"><b>Page Range: </b>{{booklet.page_range.0}} - {{booklet.page_range.1}}</p>
+                    <p style="text-align:left;"><b>Booklet Marks: </b>{{marks}}</p>
+                    <p style="text-align:left "><b>Status: </b>{{booklet.session.status_text}}</p>
+                </a>
+            </div>
         {% endfor %}
 
-
-
+        </div>
     </div>
-
-</div>
-<body>
-
-</body>
 {% endblock %}
-
 </html>
-<script type="text/javascript" src="/path/to/jquery.js"></script>
-<script type="text/javascript" src="/path/to/moment.js"></script>
-<script type="text/javascript" src="/path/to/tempusdominus-bootstrap-4.min.js"></script>

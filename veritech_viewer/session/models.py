@@ -42,17 +42,49 @@ class Session(models.Model):
     status = models.PositiveIntegerField()
     sessions = models.Manager()
 
+    def status_text(self):
+        return {0: "Pending", 1: "Completed"}[self.status]
+
 class Booklet(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="booklet", null=True, default=None)
     BKLT_TYPE=((0, "10"),(1,"5"),(2,"4,3,3"))
     booklet_type = models.CharField(max_length=1, choices=BKLT_TYPE, default=0)
+    student_time_range = models.CharField(max_length=128, null=True)
+    scans = models.TextField(null=True)
     booklets = models.Manager()
+
+    def page_range(self):
+        def sort_key(page_number):
+            if page_number[0].isdigit():
+                page_number = page_number[2:-1]
+            else:
+                page_number = page_number[1:-1]
+            
+            return int(page_number)
+
+        pages = Page.pages.all().filter(booklet__exact=self.id)
+        page_numbers = [ p.page_number for p in pages ]
+        page_numbers.sort(key=sort_key)
+
+        return min(page_numbers), max(page_numbers)
+
 
 class Page(models.Model):
     booklet = models.ForeignKey(Booklet, on_delete=models.CASCADE, null=True, default=None)
     page_number = models.CharField(max_length=45)
     overall_mark = models.PositiveIntegerField()
     pages = models.Manager()
+
+    # returns (accept, not_sure, reject, total)
+    def counts(self):
+        counts = [ len(Question.questions.all().filter(page__exact=self.id, marking_outcome=outcome)) for outcome in ['ACCEPT', 'NOT_SURE', 'REJECT'] ]
+        counts.append(len(Question.questions.all().filter(page__exact=self.id)))
+        return counts
+
+    # return count of accepted (ACCEPT or NOT_SURE)
+    def num_accepted(self):
+        counts = self.counts()
+        return counts[0] + counts[1]
 
 class Question(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE, null=True, default=None)
@@ -62,5 +94,12 @@ class Question(models.Model):
     images = models.TextField()
     questions = models.Manager();
 
-
+    def color_code_html(self):
+        colors = {
+            'REJECT': '#FF3A01',
+            'NOT_SURE': '#DDAE58',
+            'ACCEPT': '#5BBA64'
+        }
+        
+        return colors[self.marking_outcome]
 

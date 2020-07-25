@@ -3,7 +3,6 @@
 {% load static %}
 {% block content %}
 
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,21 +17,52 @@
 </head>
 
 <body>
-<div class = "container">
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<h4>Parent Booklet</h4>
+			<div class="session question" style="height:165px;">
+				<div class = "question-text" style = "padding-top:15px">
+					<p style="text-align:left"><b>Booklet ID:</b> {{parent.id}}</p>
+					<p style="text-align:left"><b>Booklet Type:</b> {{parent.booklet_type}}</p>
+					<p style="text-align:left"><b>Page Range:</b> {{parent.page_range.0}} - {{parent.page_range.1}}</p>
+					<p style="text-align:left"><a href={% url 'booklet' parent.id %}>Go to parent</a></p>
+					<br/>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<h4>Current Page</h4>
+			<div class = "session question" style="height:165px;">
+				<div class = "question-text" style = "padding-top:15px">
+					<p style="text-align:left"><b>Page Numbers:</b> {{pages.0.page_number}}, {{pages.1.page_number}}</p>
+					<p style="text-align:left"><b>Correct Answers:</b> {{counts.0|add:counts.1}} / {{counts.3}}</p>
+					<p style="text-align:left"><b>Page Marks:</b> {{pages.1.overall_mark}}</p>
+					{% if show_recog == 0 %} <p style="text-align:left"><a href="?show_recog=1">Show Recognition</a></p> {% endif %}
+					<br/>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <h4>A</h4>
+	<hr>
+
+    <h4>A Side</h4>
     {% for question, predicted, img_orig_a, img_proc_a, img_recog_a in page_a_info %}
-    <div class = "session question" style="height:280px;">
-        <div class = "question-text">
-            <p style="text-align:left"><b>Marking outcome:</b> {{question.marking_outcome}}</p>
+    <div class = "session question" style="height:165px;">
+        <div class = "question-text" style = "padding-top:15px">
+            <p style="text-align:left"><b>Marking outcome:</b> <b><span style="color: {{question.color_code_html}};">{{question.marking_outcome}}</span></b></p>
             <p style="text-align:left"><b>Correct Answer: </b>{{question.correct_ans}}</p>
             <p style="text-align:left"><b>Predicted Answer: </b>{{predicted}}</p>
             <p style="text-align:left"><b>Regex: </b>{{question.pred_regex}}</p>
             <br/>
         </div>
-        <div class = "question-img" style="float:right">
-            <img style = "height:250px; width:300px" src="{% static img_orig_a %}"/>
-            <img style = "height:250px; width:300px" src="{% static img_proc_a %}"/>
+        <div class = "question-img" style="float:right; padding-right:10px">
+            <img style = "width:300px" src="{% static img_orig_a %}"/>
+            <img style = "width:150px" src="{% static img_proc_a %}"/>
+            {% if show_recog == 1 %}
+				<img style = "width:150px" src="{% static img_recog_a %}"/>
+			{% endif %}
         </div>
     </div>
     {% endfor %}
@@ -40,19 +70,22 @@
 
     <br/>
 
-    <h4>B</h4>
+    <h4>B Side</h4>
     {% for question, predicted, img_orig_b, img_proc_b, img_recog_b in page_b_info %}
-    <div class = "session question" style="height:280px;">
-        <div class = "question-text">
-            <p style="text-align:left"><b>Marking outcome:</b> {{question.marking_outcome}}</p>
+    <div class = "session question" style="height:165px;">
+        <div class = "question-text" style = "padding-top:15px">
+            <p style="text-align:left"><b>Marking outcome:</b> <b><span style="color: {{question.color_code_html}};">{{question.marking_outcome}}</span></b></p>
             <p style="text-align:left"><b>Correct Answer: </b>{{question.correct_ans}}</p>
             <p style="text-align:left"><b>Predicted Answer: </b>{{predicted}}</p>
             <p style="text-align:left"><b>Regex: </b>{{question.pred_regex}}</p>
             <br/>
         </div>
-        <div class = "question-img" style="float:right">
-            <img style = "height:250px; width:300px" src="{% static img_orig_b %}"/>
-            <img style = "height:250px; width:300px" src="{% static img_proc_b %}"/>
+        <div class = "question-img" style="float:right; padding-right:10px">
+            <img style = "width:300px" src="{% static img_orig_b %}"/>
+            <img style = "width:150px" src="{% static img_proc_b %}"/>
+            {% if show_recog == 1 %}
+				<img style = "width:150px" src="{% static img_recog_b %}"/>
+			{% endif %}
         </div>
     </div>
     {% endfor %}

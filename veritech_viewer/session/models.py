@@ -51,6 +51,8 @@ class Booklet(models.Model):
     booklet_type = models.CharField(max_length=1, choices=BKLT_TYPE, default=0)
     student_time_range = models.CharField(max_length=128, null=True)
     scans = models.TextField(null=True)
+    class_or_homework = models.CharField(null=True, max_length=1)
+    comments = models.CharField(null=True, max_length=240)
     booklets = models.Manager()
 
     def page_range(self):
@@ -67,7 +69,26 @@ class Booklet(models.Model):
         page_numbers.sort(key=sort_key)
 
         return min(page_numbers), max(page_numbers)
+    # TO DO: Use wentao's function
+    def fix_missing_pages(booklet_id, min_page):
+        if booklet_id == 0:
+            min_page = int(np.floor((min_page - 1) / 10)) * 10 + 1
+            max_page = int(np.ceil((min_page - 1) / 10)) * 10 + 10
+        elif booklet_id == 1:
+            min_page = int(np.floor((min_page - 1) / 5)) * 5 + 1
+            max_page = int(np.ceil((min_page - 1)) / 5) * 5 + 5
+        elif booklet_id == 2:
+            if int(str(min_page)[-1]) in [1, 2, 3, 4]:
+                min_page = int(str(min_page - 1)[:-1] + "1")
+                max_page = int(str(min_page - 1)[:-1] + "4")
+            elif int(str(min_page)[-1]) in [5, 6, 7]:
+                min_page = int(str(min_page - 1)[:-1] + "5")
+                max_page = int(str(min_page - 1)[:-1] + "7")
+            elif int(str(min_page)[-1]) in [8, 9, 0]:
+                min_page = int(str(min_page - 1)[:-1] + "8")
+                max_page = int(str(min_page - 1)[:-1] + "0") + 10
 
+        return min_page, max_page
 
 class Page(models.Model):
     booklet = models.ForeignKey(Booklet, on_delete=models.CASCADE, null=True, default=None)

@@ -10,6 +10,8 @@
 </head>
 
 <body>
+
+
 <div class = "filter-panel filter-panel-record">
     <form class = "md-form mr-auto mb-4" method="GET" action="{% url 'recording' %}">
         <div class="form-row">
@@ -44,8 +46,6 @@
         <th scope="col">Booklet</th>
         <th scope="col" colspan="10" >Scores for Page: </th>
         <th scope="col">Comments</th>
-
-
     </tr>
     <tr>
         <th scope="col"></th>
@@ -63,44 +63,28 @@
         <th scope="col">10</th>
         <th scope="col"></th>
         <th scope="col"> </th>
-
     </tr>
     </thead>
     <tbody>
+    {%for booklet, marks in booklet_info %}
     <tr>
         <td>A</td>
         <td></td>
-        <td>A171</td>
-        <td>6</td>
-        <td>4</td>
-        <td>5</td>
-        <td>9</td>
-        <td>10</td>
-        <td>10</td>
-        <td>9</td>
-        <td>8</td>
-        <td>6</td>
-        <td>9</td>
+        <td>{{booklet.page_range.0}} - {{booklet.page_range.1}}</td>
+        <td>{{marks.0}}</td>
+        <td>{{marks.1}}</td>
+        <td>{{marks.2}}</td>
+        <td>{{marks.3}}</td>
+        <td>{{marks.4}}</td>
+        <td>{{marks.5}}</td>
+        <td>{{marks.6}}</td>
+        <td>{{marks.7}}</td>
+        <td>{{marks.8}}</td>
+        <td>{{marks.9}}</td>
         <td></td>
         <td class = "btn-secondary">Edit</td>
     </tr>
-    <tr>
-        <td>A</td>
-        <td></td>
-        <td>A172</td>
-        <td>8</td>
-        <td>8</td>
-        <td>9</td>
-        <td>9</td>
-        <td>10</td>
-        <td>6</td>
-        <td>9</td>
-        <td>8</td>
-        <td>7</td>
-        <td>10</td>
-        <td></td>
-        <td class = "btn-secondary">Edit</td>
-    </tr>
+    {% endfor %}
     </tbody>
 </table>
 </body>

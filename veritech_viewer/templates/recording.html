@@ -11,43 +11,56 @@
 
 <body>
 
+<div class = "container">
+    <div class = "filter-panel filter-panel-record" style="width:100%; margin-bottom: 10px;">
+        <form class = "md-form mr-auto mb-4" method="GET" action="{% url 'recording' %}">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="student_id">Student ID</label>
+                    <input type="number" class="form-control" id="student_id" name ="student_id" placeholder="Enter student ID #">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="month">Date</label>
+                    <input id="month"  class="form-control" name="month" type="month"/>
+                </div>
 
-<div class = "filter-panel filter-panel-record">
-    <form class = "md-form mr-auto mb-4" method="GET" action="{% url 'recording' %}">
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                 <label for="student_id">Student ID</label>
-                <input type="number" class="form-control" id="student_id" name ="student_id" placeholder="Enter student ID #">
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a href="/" class="btn btn-danger">Reset</a>
+
+
             </div>
-            <div class="form-group col-md-6">
-                <label for="month">Date</label>
-                <input id="month"  class="form-control" name="month" type="month"/>
-            </div>
+        </form>
+    </div>
+    <br/>
 
-            <button type="submit" class="btn btn-primary">Filter</button>
-            <a href="/" class="btn btn-danger">Reset</a>
+    <p>
+        Showing
+        {% if student_id == "" %}
+        all students
+        {% else %}
+        Gradebook for student <b>{{ student_id }}</b>
+        {% endif %}
+    </p>
 
-
-        </div>
-    </form>
 </div>
-<br/>
-<br/>
-<br/>
-<br/>
-<h3 style="display:block">Gradebook for Student Name</h3>
-<br/>
 
+
+<br/>
+{% for f in filtered_sessions %}
+<p>{{f.timestamp}}</p>
+{% endfor %}
 <table class="table table-bordered">
     <thead>
     <tr>
         <th scope="col">Level</th>
         <th scope="col">C/H</th>
         <th scope="col">Booklet</th>
+        <th scope="col">Time</th>
         <th scope="col" colspan="10" >Scores for Page: </th>
         <th scope="col">Comments</th>
     </tr>
     <tr>
+        <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -68,9 +81,10 @@
     <tbody>
     {%for booklet, marks in booklet_info %}
     <tr>
-        <td>A</td>
+        <td>{{booklet.page_range.2}}</td>
         <td></td>
-        <td>{{booklet.page_range.0}} - {{booklet.page_range.1}}</td>
+        <td><a href="{% url 'booklet' booklet.id %}">{{booklet.page_range.0}} - {{booklet.page_range.1}}</a></td>
+        <th scope="col">{{booklet.student_time_range}}</th>
         <td>{{marks.0}}</td>
         <td>{{marks.1}}</td>
         <td>{{marks.2}}</td>
@@ -82,11 +96,79 @@
         <td>{{marks.8}}</td>
         <td>{{marks.9}}</td>
         <td></td>
-        <td class = "btn-secondary">Edit</td>
+        <td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editModal">
+            Edit
+        </button>Edit</td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'recording' %}">
+                    {% csrf_token %}
+                    {{session_form}}
+                    {{booklet_form}}
+                    {{page_form}}
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="save btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Add new booklet
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'recording' %}">
+                    {% csrf_token %}
+                    {{session_form}}
+                    {{booklet_form}}
+                    {% for form in forms %}
+                      {{form}}
+                    {% endfor %}
+
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="save btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
 {% endblock %}
 </html>

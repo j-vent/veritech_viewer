@@ -51,25 +51,36 @@ class Booklet(models.Model):
     booklet_type = models.CharField(max_length=1, choices=BKLT_TYPE, default=0)
     student_time_range = models.CharField(max_length=128, null=True)
     scans = models.TextField(null=True)
-    class_or_homework = models.CharField(null=True, max_length=1)
+    class_or_homework = models.CharField(null=True, max_length=1, default="H")
     comments = models.CharField(null=True, max_length=240)
     booklets = models.Manager()
-
+    # if mod_page_range then don't
     def page_range(self):
         def sort_key(page_number):
             if page_number[0].isdigit():
                 page_number = page_number[2:-1]
             else:
                 page_number = page_number[1:-1]
-            
+                level = page_number[0]
+
             return int(page_number)
+
+        def get_level(page_number):
+            if page_number[0].isdigit():
+                level = page_number[0:2]
+            else:
+                level = page_number[0]
+
+            return level
 
         pages = Page.pages.all().filter(booklet__exact=self.id)
         page_numbers = [ p.page_number for p in pages ]
         page_numbers.sort(key=sort_key)
 
-        return min(page_numbers), max(page_numbers)
-    # TO DO: Use wentao's function
+        return min(page_numbers), max(page_numbers),get_level(page_numbers[0])
+
+
+    # TODO: Use wentao's function
     def fix_missing_pages(booklet_id, min_page):
         if booklet_id == 0:
             min_page = int(np.floor((min_page - 1) / 10)) * 10 + 1

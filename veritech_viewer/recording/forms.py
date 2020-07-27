@@ -1,13 +1,20 @@
 from django import forms
 
-from session.models import Session, Booklet, Question
+from session.models import Session, Booklet, Page, Question
 
 class SessionForm(forms.ModelForm):
     class Meta:
         model = Session
-        fields = ('student_id')
+        fields = ('student_id',)
+        
         
 class BookletForm(forms.ModelForm):
     class Meta:
         model = Booklet
-        fields = ('student_id','student_time_range')
+        fields = ('student_time_range','class_or_homework', 'comments',)
+        
+class PageForm(forms.ModelForm):
+    class Meta:
+        model = Page
+        fields = ('page_number', 'overall_mark')
+        

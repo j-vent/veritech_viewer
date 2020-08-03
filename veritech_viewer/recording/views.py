@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import Http404
 from django.db import models
 from session.models import Session, Booklet, Page
-from .forms import SessionForm, BookletForm, PageForm
+from .forms import SessionForm, BookletForm, PageForm, ModBookletForm
 # Create your views here.
 from datetime import datetime
 from time import strftime
@@ -60,8 +60,8 @@ def recording_home(request):
 
     session = session_form.save(commit=False)
     booklet = booklet_form.save(commit = False)
-    for page_form in page_forms:
-        page_form.save(commit = False)
+    #for page_form in page_forms:
+     #   page_form.save(commit = False)
     #page = page_form.save(commit = False)
     #question = question_form.save(commit= False)
 
@@ -79,12 +79,16 @@ def recording_home(request):
     else:
         print("session no valuid")
     if booklet_form.is_valid():
+        print("booklet valid")
         booklet.session = session
         booklet.save()
     for page_form in page_forms:
+        print("form!")
         if page_form.is_valid():
             page_form.booklet = booklet
+            print("PAGE VALID")
             page_form.save()
+
     #if p in page_form page_form.is_valid():
     #  page.booklet = booklet
     # page.save()
@@ -125,3 +129,16 @@ def recording_home(request):
                    "forms": page_forms});
 
 # "booklet_form": booklet_form, "session_form": session_form
+
+def edit_booklet(request, booklet_id):
+    booklet_obj = Booklet.objects.get(booklet_id)
+    if request.method == "POST":
+        mod_booklet_form = ModBookletForm(request.POST, instance=booklet_obj)
+        booklet = mod_booklet_form.save(commit=False)
+        if mod_booklet_form.is_valid():
+            print("booklet valid")
+            booklet.save()
+
+
+    else:
+        form = ModBookletForm()

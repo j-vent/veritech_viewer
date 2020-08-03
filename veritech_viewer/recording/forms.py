@@ -17,4 +17,8 @@ class PageForm(forms.ModelForm):
     class Meta:
         model = Page
         fields = ('page_number', 'overall_mark')
-        
+
+class ModBookletForm(forms.ModelForm):
+    class Meta:
+        model = Booklet
+        fields = ('class_or_homework', 'comments',)

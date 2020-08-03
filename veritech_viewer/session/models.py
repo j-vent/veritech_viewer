@@ -57,6 +57,7 @@ class Booklet(models.Model):
     # if mod_page_range then don't
     def page_range(self):
         def sort_key(page_number):
+
             if page_number[0].isdigit():
                 page_number = page_number[2:-1]
             else:
@@ -76,6 +77,8 @@ class Booklet(models.Model):
         pages = Page.pages.all().filter(booklet__exact=self.id)
         page_numbers = [ p.page_number for p in pages ]
         page_numbers.sort(key=sort_key)
+        if len(page_numbers) == 0:
+            return 0,0,"A"
 
         return min(page_numbers), max(page_numbers),get_level(page_numbers[0])
 

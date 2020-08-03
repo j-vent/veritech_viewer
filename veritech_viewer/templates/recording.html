@@ -96,9 +96,9 @@
         <td>{{marks.8}}</td>
         <td>{{marks.9}}</td>
         <td></td>
-        <td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editModal">
+        <td><button type="button" id="{booklet.id}" class="btn btn-secondary" data-toggle="modal" data-target="#editModal">
             Edit
-        </button>Edit</td>
+        </button></td>
     </tr>
     {% endfor %}
     </tbody>
@@ -116,9 +116,8 @@
 
                 <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'recording' %}">
                     {% csrf_token %}
-                    {{session_form}}
-                    {{booklet_form}}
-                    {{page_form}}
+                    {{mod_booklet_form}}
+
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

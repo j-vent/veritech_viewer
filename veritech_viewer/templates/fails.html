@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% load param_replace %}
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Questions</title>
+
+    {# Include Bootstrap 4 and jQuery #}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'style1.css' %}"  rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container">
+    <h1>Fails</h1>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="session question" style="height:165px;">
+				<div class = "question-text" style = "padding-top:15px">
+                    <h4>Filter</h4>
+                    <form method="GET">
+					<p style="text-align:left"><b>Session ID:</b> <input type="text" name="sessid"></p>
+                    <input type="submit">
+                    </form>
+					<br/>
+				</div>
+			</div>
+		</div>
+    </div>
+
+	<hr>
+
+    {% for question in fails %}
+    <div class = "session question" style="height:220px;">
+        <div class = "question-text" style = "padding-top:15px">
+            <p style="text-align:left"><b>ID: </b>{{question.id}}</p>
+            <p style="text-align:left"><b>Marking outcome:</b> <b><span style="color: {{question.color_code_html}};">{{question.marking_outcome}}</span></b></p>
+            <p style="text-align:left"><b>Correct Answer: </b>{{question.correct_ans}}</p>
+            <p style="text-align:left"><b>Predicted Answer: </b>{{question.predicted_answer}}</p>
+            <p style="text-align:left"><b>Regex: </b><code>{{question.pred_regex}}</code></p>
+            <button onclick="updateMarking({{question.id}}, 0);" type="button" class="btn btn-success btn-sm">Change to ACCEPT</button>
+            <button onclick="updateMarking({{question.id}}, 1);" type="button" class="btn btn-warning btn-sm">Change to NOT_SURE</button>
+            <br/>
+        </div>
+        <div class = "question-img" style="float:right; padding-right:10px">
+            <img style = "width:300px" src="{% static question.image_paths.0 %}"/>
+            <img style = "width:150px" src="{% static question.image_paths.1 %}"/>
+            <img style = "width:150px" src="{% static question.image_paths.2 %}"/>
+        </div>
+    </div>
+    {% endfor %}
+    <br />
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if fails.has_previous %}
+                <a href="?{% param_replace page=1 %}">&laquo; first</a>
+                <a href="?{% param_replace page=fails.previous_page_number %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page <b>{{ fails.number }}</b> of {{ fails.paginator.num_pages }}.
+            </span>
+
+            {% if fails.has_next %}
+                <a href="?{% param_replace page=fails.next_page_number %}">next</a>
+                <a href="?{% param_replace page=fails.paginator.num_pages %}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <hr>
+</div>
+<script>
+function updateMarking(qid, resp) {
+    jQuery.noConflict();
+    $.get("/fails", {question_id: parseInt(qid), marking_outcome: resp}, function(res) {
+        location.reload();
+    });
+    
+}
+</script>
+</body>
+{% endblock %}
+
+</html>

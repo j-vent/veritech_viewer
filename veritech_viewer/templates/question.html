@@ -48,20 +48,20 @@
 	<hr>
 
     <h4>A Side</h4>
-    {% for question, predicted, img_orig_a, img_proc_a, img_recog_a in page_a_info %}
+    {% for question in page_a %}
     <div class = "session question" style="height:165px;">
         <div class = "question-text" style = "padding-top:15px">
             <p style="text-align:left"><b>Marking outcome:</b> <b><span style="color: {{question.color_code_html}};">{{question.marking_outcome}}</span></b></p>
             <p style="text-align:left"><b>Correct Answer: </b>{{question.correct_ans}}</p>
-            <p style="text-align:left"><b>Predicted Answer: </b>{{predicted}}</p>
-            <p style="text-align:left"><b>Regex: </b>{{question.pred_regex}}</p>
+            <p style="text-align:left"><b>Predicted Answer: </b>{{question.predicted_answer}}</p>
+            <p style="text-align:left"><b>Regex: </b><code>{{question.pred_regex}}</code></p>
             <br/>
         </div>
         <div class = "question-img" style="float:right; padding-right:10px">
-            <img style = "width:300px" src="{% static img_orig_a %}"/>
-            <img style = "width:150px" src="{% static img_proc_a %}"/>
+            <img style = "width:300px" src="{% static question.image_paths.0 %}"/>
+            <img style = "width:150px" src="{% static question.image_paths.1 %}"/>
             {% if show_recog == 1 %}
-				<img style = "width:150px" src="{% static img_recog_a %}"/>
+				<img style = "width:150px" src="{% static question.image_paths.2 %}"/>
 			{% endif %}
         </div>
     </div>
@@ -71,20 +71,20 @@
     <br/>
 
     <h4>B Side</h4>
-    {% for question, predicted, img_orig_b, img_proc_b, img_recog_b in page_b_info %}
+    {% for question in page_b %}
     <div class = "session question" style="height:165px;">
         <div class = "question-text" style = "padding-top:15px">
             <p style="text-align:left"><b>Marking outcome:</b> <b><span style="color: {{question.color_code_html}};">{{question.marking_outcome}}</span></b></p>
             <p style="text-align:left"><b>Correct Answer: </b>{{question.correct_ans}}</p>
-            <p style="text-align:left"><b>Predicted Answer: </b>{{predicted}}</p>
-            <p style="text-align:left"><b>Regex: </b>{{question.pred_regex}}</p>
+            <p style="text-align:left"><b>Predicted Answer: </b>{{question.predicted_answer}}</p>
+            <p style="text-align:left"><b>Regex: </b><code>{{question.pred_regex}}</code></p>
             <br/>
         </div>
         <div class = "question-img" style="float:right; padding-right:10px">
-            <img style = "width:300px" src="{% static img_orig_b %}"/>
-            <img style = "width:150px" src="{% static img_proc_b %}"/>
+            <img style = "width:300px" src="{% static question.image_paths.0 %}"/>
+            <img style = "width:150px" src="{% static question.image_paths.1 %}"/>
             {% if show_recog == 1 %}
-				<img style = "width:150px" src="{% static img_recog_b %}"/>
+				<img style = "width:150px" src="{% static question.image_paths.2 %}"/>
 			{% endif %}
         </div>
     </div>

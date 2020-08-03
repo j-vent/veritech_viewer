@@ -2,6 +2,9 @@ from django.db import models
 from datetime import datetime
 from time import strftime
 
+import re
+import os
+
 class UnixTimestampField(models.DateTimeField):
     """UnixTimestampField: creates a DateTimeField that is represented on the
     database as a TIMESTAMP field rather than the usual DATETIME field.
@@ -43,7 +46,7 @@ class Session(models.Model):
     sessions = models.Manager()
 
     def status_text(self):
-        return {0: "Pending", 1: "Completed"}[self.status]
+        return {0: "Pending", 1: "Completed", 2: "Hidden"}[self.status]
 
 class Booklet(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="booklet", null=True, default=None)
@@ -80,7 +83,7 @@ class Booklet(models.Model):
         if len(page_numbers) == 0:
             return 0,0,"A"
 
-        return min(page_numbers), max(page_numbers),get_level(page_numbers[0])
+        return min(page_numbers), max(page_numbers), get_level(page_numbers[0])
 
 
     # TODO: Use wentao's function
@@ -103,6 +106,9 @@ class Booklet(models.Model):
                 max_page = int(str(min_page - 1)[:-1] + "0") + 10
 
         return min_page, max_page
+
+    def image_paths(self):
+        return [ os.path.join("images", x + ".png") for x in self.scans.split(",") ]
 
 class Page(models.Model):
     booklet = models.ForeignKey(Booklet, on_delete=models.CASCADE, null=True, default=None)
@@ -137,4 +143,29 @@ class Question(models.Model):
         }
         
         return colors[self.marking_outcome]
+
+    def predicted_answer(self):
+        def proposals(lst):
+            if len(lst) == 0: return []
+            if len(lst) == 1: return lst[0]
+            p = proposals(lst[1:])
+
+            ret = []
+            for x in lst[0]:
+                for y in p:
+                    ret.append(str(x) + str(y))
+
+            return ret
+
+        if len(self.pred_regex) < 4:
+            return "No text detected"
+        tokens = [x.split("|") for x in self.pred_regex[2:-2].split(")(")]
+        prop = list(set(proposals(tokens)))
+
+        text = " or ".join(prop)
+        return text
+
+    def image_paths(self):
+        return [ os.path.join("images", x + ".png") for x in self.images.split(",") ]
+
 

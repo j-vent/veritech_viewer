@@ -25,7 +25,7 @@ SECRET_KEY = '@a^)_0645ksedix2m++-p52heamd(dq1jo&+nz2uq4w*8(mhv9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.105.16.104', '50.65.117.214','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['172.105.16.104', '50.65.117.214','127.0.0.1','localhost', "10.8.12.52", "192.168.2.48"]
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'session.apps.SessionConfig',
+    'session.templatetags',
 
 ]
 
@@ -79,10 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         #'HOST': '/var/run/mysqld/mysqld.sock',
-        'HOST':  '172.105.16.104',
+        'HOST':  'localhost',
         'NAME': 'kumon_django',
-        'USER': 'kumon-client',
-        'PASSWORD': '9sVwbGeJP7ECd9Z5xZXUTH2D',
+        'USER': 'fuck',
+        'PASSWORD': 'fuck',
     }
 }
 
@@ -105,6 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL="/"
+LOGIN_URL="/login"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/

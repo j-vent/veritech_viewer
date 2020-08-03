@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% load param_replace %}
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page View {{ booklet.id }}</title>
+
+    {# Include Bootstrap 4 and jQuery #}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'style1.css' %}"  rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container">
+    <h1>Pages for booklet {{ booklet.id }}</h1>
+    <h4>Total: {{ booklet.image_paths|length }} images<h4>
+	{% for image in booklet.image_paths %}
+        <img src={% static image %}>
+    {% endfor %}
+</div>
+</body>
+{% endblock %}
+
+</html>

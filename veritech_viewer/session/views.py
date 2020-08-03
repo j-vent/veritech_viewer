@@ -1,11 +1,14 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import Http404
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from. models import Booklet, Session, Page, Question
 from datetime import datetime
 import os
 import re
 
+@login_required
 def home(request):
     studentID_Query = request.GET.get('student_id', '')
     date_Query = request.GET.get('date', '')
@@ -36,6 +39,7 @@ def home(request):
         "booklet_info": list(zip(filtered_booklets, booklet_mark_list)), "booklets": filtered_booklets, "list":booklet_mark_list});
 
 
+@login_required
 def pages(request, page_id_a, page_id_b):
     show_recog = 0
     if request.GET.get('show_recog') == '1':
@@ -44,6 +48,7 @@ def pages(request, page_id_a, page_id_b):
     spec_page_a = Page.pages.all().filter(id=page_id_a)
     spec_page_b = Page.pages.all().filter(id=page_id_b)
 
+
     booklet = spec_page_a[0].booklet
     counts_a = spec_page_a[0].counts()
     counts_b = spec_page_b[0].counts()
@@ -51,6 +56,7 @@ def pages(request, page_id_a, page_id_b):
 
     filtered_questions_a = Question.questions.all().filter(page__in=spec_page_a)
     filtered_questions_b = Question.questions.all().filter(page__in=spec_page_b)
+
 
     predicted_a = []
     predicted_b = []
@@ -140,11 +146,50 @@ def pages(request, page_id_a, page_id_b):
             predicted_b.append(trim.replace("|", " or "))
 
     # if(trim[1]==')' and trim[2]=='(' and trim[])
+    tmp = list(zip(filtered_questions_a, predicted_a, img_orig_a, img_proc_a, img_recog_a))
     return render(request, 'question.html', {"questions":filtered_questions_a, "predicted":predicted_a, "pid":page_id_a,
-                         "page_a_info": zip(filtered_questions_a, predicted_a, img_orig_a, img_proc_a, img_recog_a),
-                         "page_b_info": zip(filtered_questions_b, predicted_b, img_orig_b, img_proc_b, img_recog_b),
+                         "page_a": filtered_questions_a, "page_b": filtered_questions_b, 
                          "parent": booklet, 'counts': counts, 'pages': (spec_page_a[0], spec_page_b[0]), 'show_recog': show_recog})
 
+# Renders the page that displays all the REJECTs and allows for the amendment
+# of marking outcomes
+@login_required
+def fails(request):
+    if request.GET.get('question_id') is not None:
+        # I regret doing this shit in production
+        outcomes = {0: 'ACCEPT', 1: 'NOT_SURE'};
+        question_id = int(request.GET.get('question_id'))
+        new_outcome = outcomes[int(request.GET.get('marking_outcome'))]
+
+        Question.questions.filter(id=question_id).update(marking_outcome=new_outcome)
+
+    questions = Question.questions.all().filter(marking_outcome='REJECT')
+
+    # apply filter
+    if request.GET.get('sessid') is not None:
+        questions = questions.filter(page__booklet__session__id=request.GET.get('sessid'))
+
+    paginator = Paginator(questions, 25)
+
+    page_number = request.GET.get('page')
+    if page_number is None: page_number = 1
+
+    questions_page = paginator.get_page(page_number)
+
+    return render(request, 'fails.html', {'fails': questions_page})
+
+@login_required
+def booklet_pages(request, booklet_id):
+    booklet = Booklet.booklets.all().filter(id=booklet_id)
+
+    if len(booklet) == 0:
+        raise Http404("Booklet not found")
+
+    booklet = booklet[0]
+
+    return render(request, "booklet_pages.html", {"booklet": booklet})
+
+@login_required
 def test(request):
     sessions = Session.objects
     studentID_Query = request.GET.get('student_id','')
@@ -158,10 +203,12 @@ def test(request):
     return render(request,'test.html',{"sessions":filtered_sessions, "dates":date_Query});
 
 
+@login_required
 def questions(request):
     return render(request, 'question.html')
 
 
+@login_required
 def booklet(request, booklet_id):
     # spec_booklet = get_object_or_404(Booklet, pk=booklet_id)
     # filtered_pages = Page.pages.all().filter(booklet__in=spec_booklet)

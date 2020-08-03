@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import Http404
 from django.db import models
@@ -39,7 +40,7 @@ class UnixTimestampField(models.DateTimeField):
         # Use '%Y%m%d%H%M%S' for MySQL < 4.1
         return strftime('%Y-%m-%d %H:%M:%S',value.timetuple())
 
-
+@login_required
 def recording_home(request):
     page_forms = []
     # else case is for first time access
@@ -129,6 +130,7 @@ def recording_home(request):
                    "forms": page_forms});
 
 # "booklet_form": booklet_form, "session_form": session_form
+<<<<<<< HEAD
 
 def edit_booklet(request, booklet_id):
     booklet_obj = Booklet.objects.get(booklet_id)
@@ -142,3 +144,5 @@ def edit_booklet(request, booklet_id):
 
     else:
         form = ModBookletForm()
+=======
+>>>>>>> 08f8a30f80705ce93ae7ff8955686b584ba0dd31

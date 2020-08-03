@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import Http404
 from django.db import models
@@ -39,7 +40,7 @@ class UnixTimestampField(models.DateTimeField):
         # Use '%Y%m%d%H%M%S' for MySQL < 4.1
         return strftime('%Y-%m-%d %H:%M:%S',value.timetuple())
 
-
+@login_required
 def recording_home(request):
     page_forms = []
     # else case is for first time access

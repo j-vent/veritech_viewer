@@ -7,17 +7,17 @@ from .models import Session, Booklet, Page, Question
 class SessionAdmin(admin.ModelAdmin):
     readonly_fields = ['id', ]
     fields = ['student_id', 'timestamp', 'status']
-    list_display = ['id', 'student_id', 'timestamp', 'status']
+    list_display = ['id', 'student_id', 'timestamp', 'status_text']
 
 class BookletAdmin(admin.ModelAdmin):
     readonly_fields = ['id', ]
-    fields = ['session', 'booklet_type']
+    fields = ['session', 'booklet_type', 'class_or_homework', 'student_time_range', 'comments']
     list_display = ['id', 'session', 'booklet_type']
 
 class PageAdmin(admin.ModelAdmin):
     readonly_fields = ['id', ]
     fields = ['booklet', 'page_number', 'overall_mark']
-    list_display = ['id', 'booklet', 'page_number', 'overall_mark']
+    list_display = ['id', 'booklet', 'page_number', 'overall_mark', 'counts']
 
 class QuestionAdmin(admin.ModelAdmin):
     readonly_fields = ['id', ]

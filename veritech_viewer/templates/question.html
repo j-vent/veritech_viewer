@@ -26,7 +26,7 @@
 					<p style="text-align:left"><b>Booklet ID:</b> {{parent.id}}</p>
 					<p style="text-align:left"><b>Booklet Type:</b> {{parent.booklet_type}}</p>
 					<p style="text-align:left"><b>Page Range:</b> {{parent.page_range.0}} - {{parent.page_range.1}}</p>
-					<p style="text-align:left"><a href={% url 'booklet' parent.id %}>Go to parent</a></p>
+					<p style="text-align:left"><a href="{% url 'booklet' parent.id %}">Go to parent</a></p>
 					<br/>
 				</div>
 			</div>
@@ -58,10 +58,10 @@
             <br/>
         </div>
         <div class = "question-img" style="float:right; padding-right:10px">
-            <img style = "width:300px" src="{% static question.image_paths.0 %}"/>
-            <img style = "width:150px" src="{% static question.image_paths.1 %}"/>
+            <img style = "width:300px; height: 90px;" src="{% static question.image_paths.0 %}"/>
+            <img style = "width:150px; height: 90px;" src="{% static question.image_paths.1 %}"/>
             {% if show_recog == 1 %}
-				<img style = "width:150px" src="{% static question.image_paths.2 %}"/>
+				<img style = "width:150px; height: 90px;" src="{% static question.image_paths.2 %}"/>
 			{% endif %}
         </div>
     </div>

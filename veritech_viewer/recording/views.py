@@ -85,10 +85,11 @@ def recording_home(request):
         booklet.save()
     for page_form in page_forms:
         print("form!")
+        page = page_form.save(commit = False)
         if page_form.is_valid():
-            page_form.booklet = booklet
-            print("PAGE VALID")
-            page_form.save()
+          page.booklet = booklet
+          print("PAGE VALID")
+          page.save()
 
     #if p in page_form page_form.is_valid():
     #  page.booklet = booklet
@@ -117,12 +118,10 @@ def recording_home(request):
         page_mark_list = []
         spec_booklet = Booklet.booklets.all().filter(id=booklet.id)
         filtered_pages = Page.pages.all().filter(booklet__in=spec_booklet)
-
         for page in filtered_pages[::2]:  # since marks attached to 'a' side
             page_mark_list.append(int(str(page.overall_mark)[:-1]))  # remove the last digit-- want 10,9,8,7,6 only
 
         booklet_mark_list.append(str(page_mark_list)[1:-1].split(", "))
-
 
     return render(request, 'recording.html',
                   {"student_id": studentID_Query, "sessions": filtered_sessions, "booklet_info": list(zip(filtered_booklets, booklet_mark_list)),
@@ -130,7 +129,7 @@ def recording_home(request):
                    "forms": page_forms});
 
 # "booklet_form": booklet_form, "session_form": session_form
-<<<<<<< HEAD
+
 
 def edit_booklet(request, booklet_id):
     booklet_obj = Booklet.objects.get(booklet_id)
@@ -144,5 +143,3 @@ def edit_booklet(request, booklet_id):
 
     else:
         form = ModBookletForm()
-=======
->>>>>>> 08f8a30f80705ce93ae7ff8955686b584ba0dd31

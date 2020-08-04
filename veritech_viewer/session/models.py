@@ -78,12 +78,17 @@ class Booklet(models.Model):
             return level
 
         pages = Page.pages.all().filter(booklet__exact=self.id)
+
+
         page_numbers = [ p.page_number for p in pages ]
         page_numbers.sort(key=sort_key)
-        if len(page_numbers) == 0:
-            return 0,0,"A"
 
-        return min(page_numbers), max(page_numbers), get_level(page_numbers[0])
+        if len(page_numbers) == 0:
+            page_numbers = [0] * 10
+            level = "A"
+        else:
+            level = get_level(page_numbers[0])
+        return min(page_numbers), max(page_numbers), level
 
 
     # TODO: Use wentao's function
@@ -105,7 +110,7 @@ class Booklet(models.Model):
                 min_page = int(str(min_page - 1)[:-1] + "8")
                 max_page = int(str(min_page - 1)[:-1] + "0") + 10
 
-        return min_page, max_page
+        return min_page, max_1page
 
     def image_paths(self):
         return [ os.path.join("images", x + ".png") for x in self.scans.split(",") ]

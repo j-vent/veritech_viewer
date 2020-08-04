@@ -42,129 +42,125 @@
         {% endif %}
     </p>
 
-</div>
 
 
-<br/>
-{% for f in filtered_sessions %}
-<p>{{f.timestamp}}</p>
-{% endfor %}
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th scope="col">Level</th>
-        <th scope="col">C/H</th>
-        <th scope="col">Booklet</th>
-        <th scope="col">Time</th>
-        <th scope="col" colspan="10" >Scores for Page: </th>
-        <th scope="col">Comments</th>
-    </tr>
-    <tr>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col">1</th>
-        <th scope="col">2</th>
-        <th scope="col">3</th>
-        <th scope="col">4</th>
-        <th scope="col">5</th>
-        <th scope="col">6</th>
-        <th scope="col">7</th>
-        <th scope="col">8</th>
-        <th scope="col">9</th>
-        <th scope="col">10</th>
-        <th scope="col"></th>
-        <th scope="col"> </th>
-    </tr>
-    </thead>
-    <tbody>
-    {%for booklet, marks in booklet_info %}
-    <tr>
-        <td>{{booklet.page_range.2}}</td>
-        <td></td>
-        <td><a href="{% url 'booklet' booklet.id %}">{{booklet.page_range.0}} - {{booklet.page_range.1}}</a></td>
-        <th scope="col">{{booklet.student_time_range}}</th>
-        <td>{{marks.0}}</td>
-        <td>{{marks.1}}</td>
-        <td>{{marks.2}}</td>
-        <td>{{marks.3}}</td>
-        <td>{{marks.4}}</td>
-        <td>{{marks.5}}</td>
-        <td>{{marks.6}}</td>
-        <td>{{marks.7}}</td>
-        <td>{{marks.8}}</td>
-        <td>{{marks.9}}</td>
-        <td></td>
-        <td><button type="button" id="{booklet.id}" class="btn btn-secondary" data-toggle="modal" data-target="#editModal">
-            Edit
-        </button></td>
-    </tr>
+
+    <br/>
+    {% for f in filtered_sessions %}
+    <p>{{f.timestamp}}</p>
     {% endfor %}
-    </tbody>
-</table>
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">Level</th>
+            <th scope="col">C/H</th>
+            <th scope="col">Booklet</th>
+            <th scope="col">Time</th>
+            <th scope="col" colspan="10" >Scores for Page: </th>
+            <th scope="col">Comments</th>
+        </tr>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col">1</th>
+            <th scope="col">2</th>
+            <th scope="col">3</th>
+            <th scope="col">4</th>
+            <th scope="col">5</th>
+            <th scope="col">6</th>
+            <th scope="col">7</th>
+            <th scope="col">8</th>
+            <th scope="col">9</th>
+            <th scope="col">10</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {%for booklet, marks in booklet_info %}
+        <tr>
+            <td>{{booklet.page_range.2}}</td>
+            <td></td>
+            <td><a href="{% url 'booklet' booklet.id %}">{{booklet.page_range.0}} - {{booklet.page_range.1}}</a></td>
+            <th scope="col">{{booklet.student_time_range}}</th>
+            <td>{{marks.0}}</td>
+            <td>{{marks.1}}</td>
+            <td>{{marks.2}}</td>
+            <td>{{marks.3}}</td>
+            <td>{{marks.4}}</td>
+            <td>{{marks.5}}</td>
+            <td>{{marks.6}}</td>
+            <td>{{marks.7}}</td>
+            <td>{{marks.8}}</td>
+            <td>{{marks.9}}</td>
+            <th scope="col"></th>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'recording' %}">
+                        {% csrf_token %}
+                        {{mod_booklet_form}}
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="save btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+
+                </div>
+
             </div>
-            <div class="modal-body">
-
-                <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'recording' %}">
-                    {% csrf_token %}
-                    {{mod_booklet_form}}
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="save btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-
-            </div>
-
         </div>
     </div>
-</div>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Add new booklet
-</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    <!-- Button trigger modal
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Add new booklet
+    </button>-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Booklet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'recording' %}">
+                        {% csrf_token %}
+                        {{session_form}}
+                        {{booklet_form}}
+                        {% for form in forms %}
+                          {{form}}
+                          {{form.error}}
+                        {% endfor %}
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="save btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+
+                </div>
+
             </div>
-            <div class="modal-body">
-
-                <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'recording' %}">
-                    {% csrf_token %}
-                    {{session_form}}
-                    {{booklet_form}}
-                    {% for form in forms %}
-                      {{form}}
-                    {% endfor %}
-
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="save btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-
-            </div>
-
         </div>
     </div>
 </div>

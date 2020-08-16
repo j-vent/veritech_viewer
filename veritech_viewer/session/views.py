@@ -3,8 +3,9 @@ from django.shortcuts import render
 from django.http import Http404
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
-from. models import Booklet, Session, Page, Question
+from .models import Booklet, Session, Page, Question
 from datetime import datetime
+
 import os
 import re
 
@@ -30,10 +31,15 @@ def home(request):
         page_mark_list = []
         spec_booklet = Booklet.booklets.all().filter(id=booklet.id)
         filtered_pages = Page.pages.all().filter(booklet__in=spec_booklet)
-        
-        for page in filtered_pages[::2]: # since marks attached to 'a' side
-            page_mark_list.append(int(str(page.overall_mark)[:-1])) # remove the last digit-- want 10,9,8,7,6 only
-        booklet_mark_list.append(str(page_mark_list)[1:-1])
+        if (len(filtered_pages) != 0):
+            for page in filtered_pages[::2]: # since marks attached to 'a' side
+
+                if (str(page.overall_mark)[:-1]).isdigit():
+                    #print("yes fuck")
+                    page_mark_list.append(int(str(page.overall_mark)[:-1])) # remove the last digit-- want 10,9,8,7,6 only
+                #else:
+                    #print("fuck")
+            booklet_mark_list.append(str(page_mark_list)[1:-1])
 
     return render(request, 'index.html', {"sessions": filtered_sessions, "dates": date_Query, "student_id": studentID_Query, 
         "booklet_info": list(zip(filtered_booklets, booklet_mark_list)), "booklets": filtered_booklets, "list":booklet_mark_list});

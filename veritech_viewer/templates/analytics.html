@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics</title>
+    <link href="{% static 'style1.css' %}"  rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+</head>
+
+<div class = "container">
+    <div class = "filter-panel filter-panel-record" style="width:100%; margin-bottom: 10px;">
+        <form class = "md-form mr-auto mb-4" method="GET" action="{% url 'recording' %}">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="student_id">Student ID</label>
+                    <input type="number" class="form-control" id="student_id" name ="student_id" placeholder="Enter student ID #">
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a href="/" class="btn btn-danger">Reset</a>
+
+            </div>
+        </form>
+    </div>
+    <br/>
+
+    <p>
+        Showing
+        {% if student_id == "" %}
+        Please enter a Student ID.
+        {% else %}
+        Gradebook for student <b>{{ student_id }}</b>
+        {% endif %}
+    </p>
+{% endblock %}
+
+</html>

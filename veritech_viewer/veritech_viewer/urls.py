@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
-import session.views
+import session.views, analytics.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +31,8 @@ urlpatterns = [
     path('fails/', session.views.fails, name='fails'),
     path('recording/',include('recording.urls')),
     path('pages/<int:booklet_id>', session.views.booklet_pages),
+    path('analytics/', analytics.views.home, name ='analytics'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name="registration/login.html"), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
+
 ]

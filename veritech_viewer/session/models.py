@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from time import strftime
 
+
 import re
 import os
 
@@ -110,7 +111,7 @@ class Booklet(models.Model):
                 min_page = int(str(min_page - 1)[:-1] + "8")
                 max_page = int(str(min_page - 1)[:-1] + "0") + 10
 
-        return min_page, max_1page
+        return min_page, max_page
 
     def image_paths(self):
         return [ os.path.join("images", x + ".png") for x in self.scans.split(",") ]

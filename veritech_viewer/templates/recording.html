@@ -58,6 +58,7 @@
             <th scope="col">Time</th>
             <th scope="col" colspan="10" >Scores for Page: </th>
             <th scope="col">Comments</th>
+            <th scope="col">Edit</th>
         </tr>
         <tr>
             <th scope="col"></th>
@@ -78,10 +79,10 @@
         </tr>
         </thead>
         <tbody>
-        {%for booklet, marks in booklet_info %}
+        {% for booklet, marks in booklet_info %}
         <tr>
             <td>{{booklet.page_range.2}}</td>
-            <td></td>
+            <td>{{booklet.class_or_homework}}</td>
             <td><a href="{% url 'booklet' booklet.id %}">{{booklet.page_range.0}} - {{booklet.page_range.1}}</a></td>
             <th scope="col">{{booklet.student_time_range}}</th>
             <td>{{marks.0}}</td>
@@ -94,7 +95,13 @@
             <td>{{marks.7}}</td>
             <td>{{marks.8}}</td>
             <td>{{marks.9}}</td>
-            <th scope="col"></th>
+            <th scope="col">{{booklet.comments}}</th>
+            <th><form action = "{% url 'edit' %}" method = "GET">
+                {% csrf_token %}
+                 <button type="submit" class="btn btn-primary" value = {{booklet.id}} name = booklet>Edit</button>
+            </form>
+
+            </th>
         </tr>
         {% endfor %}
         </tbody>
@@ -110,11 +117,42 @@
                 </div>
                 <div class="modal-body">
 
+                    <!--<form class = "md-form mr-auto mb-4" method="POST" action="{% url 'edit' %}">
+                        {% csrf_token %}
+                        {{mod.as_p}}
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="save btn btn-primary">Save changes</button>
+                        </div>
+                    </form>-->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jexampleModal">
+        Add new booklet
+    </button>
+    <div class="modal fade" id="jexampleModal" tabindex="-1" role="dialog" aria-labelledby="jexampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jexampleModalLabel">Add Booklet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
                     <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'recording' %}">
                         {% csrf_token %}
-                        {{mod_booklet_form}}
-
-
+                        {{session_form}}
+                        {{booklet_form}}
+                        {{formset.as_p}}
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="save btn btn-primary">Save changes</button>
@@ -126,12 +164,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Button trigger modal
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Add new booklet
-    </button>-->
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -146,12 +178,10 @@
 
                     <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'recording' %}">
                         {% csrf_token %}
-                        {{session_form}}
-                        {{booklet_form}}
-                        {% for form in forms %}
-                          {{form}}
-                          {{form.error}}
-                        {% endfor %}
+                        <!--{{session_form}}
+                        {{booklet_form}}-->
+                        {{mod}}
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="save btn btn-primary">Save changes</button>

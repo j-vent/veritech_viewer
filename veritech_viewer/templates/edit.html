@@ -1,19 +1,24 @@
-<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>EDIT BOOKLET</title>
 
-
+    <div class = "container">
     <form class = "md-form mr-auto mb-4" method="POST" action="{% url 'edit' %}">
         {% csrf_token %}
         {{form.as_p}}
         <button type="submit" class="btn btn-primary" value = {{id}} name = booklet>Submit</button>
 
     </form>
-
+    </div>
 </head>
 <body>
+
+{% endblock %}
 
 </body>
 </html>

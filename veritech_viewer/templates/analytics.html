@@ -12,28 +12,78 @@
 
 <div class = "container">
     <div class = "filter-panel filter-panel-record" style="width:100%; margin-bottom: 10px;">
-        <form class = "md-form mr-auto mb-4" method="GET" action="{% url 'recording' %}">
-            <div class="form-row">
+        <form class = "md-form mr-auto mb-4" method="GET" action="{% url 'analytics' %}">
+            <div class="form">
                 <div class="form-group col-md-6">
                     <label for="student_id">Student ID</label>
                     <input type="number" class="form-control" id="student_id" name ="student_id" placeholder="Enter student ID #">
                 </div>
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <a href="/" class="btn btn-danger">Reset</a>
+                <div style = "margin-left:20px">
+                    <button type="submit" class="btn btn-primary" style="height:40px; width:80px">Filter</button>
+                    <a href="/" class="btn btn-danger" style="height:40px; width:80px">Reset</a> </div>
 
             </div>
         </form>
     </div>
+    <div id="container" style="width: 75%;">
+        <p>
+            Showing
+            {% if student_id == "" %}
+            Please enter a Student ID.
+            {% else %}
+            Gradebook for student <b>{{ student_id }}</b>
+            {% endif %}
+        </p>
+        <canvas id="error-chart"></canvas>
+        <canvas id="score-chart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script>
+
+    var config = {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: {{ error_data|safe }},
+          label: 'Errors per Booklet',
+          borderColor: "#3e95cd",
+          fill: true,
+        }],
+        labels: {{ error_labels|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+    var config_2 = {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: {{ score_data|safe }},
+          label: 'Scores per Booklet',
+          borderColor: "red",
+          fill: true,
+        }],
+        labels: {{ score_labels|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById('error-chart').getContext('2d');
+      window.myChart = new Chart(ctx, config);
+      var ctx = document.getElementById('score-chart').getContext('2d');
+      window.myChart2 = new Chart(ctx, config_2);
+    };
+
+  </script>
+
     <br/>
 
-    <p>
-        Showing
-        {% if student_id == "" %}
-        Please enter a Student ID.
-        {% else %}
-        Gradebook for student <b>{{ student_id }}</b>
-        {% endif %}
-    </p>
-{% endblock %}
+
+    {% endblock %}
 
 </html>

@@ -8,7 +8,9 @@ def analytics(request):
     error_vals = []
     score_vals = []
     time_vals = []
+    isEmpty = True
     studentID_Query = request.GET.get('student_id', '')
+    months = []
     for i in range(1,13):
         scores[i] = []
         errors[i] = []
@@ -26,15 +28,19 @@ def analytics(request):
             filtered_booklets = Booklet.booklets.all().filter(session__in=filtered_sessions)
             for booklet in filtered_booklets:
                 # print(booklet.student_time_range);
-                start = int(booklet.student_time_range.split(',')[0])
-                end = int(booklet.student_time_range.split(',')[1])
-                if(start != "" and end != ""):
-                    if end < start:
-                      end+= 1200
-                    hours = end/100 - start/100
-                    minutes = end%100 - start%100
-                    time_taken = hours * 60 + minutes
-                    times[session.timestamp.month].append(time_taken);
+                print(booklet.student_time_range)
+                if booklet.student_time_range != ",":
+                    start = int(booklet.student_time_range.split(',')[0])
+                    print("start ")
+                    print(start)
+                    end = int(booklet.student_time_range.split(',')[1])
+                    if(start != "" and end != ""):
+                        if end < start:
+                          end+= 1200
+                        hours = end/100 - start/100
+                        minutes = end%100 - start%100
+                        time_taken = hours * 60 + minutes
+                        times[session.timestamp.month].append(time_taken);
 
             filtered_pages = Page.pages.all().filter(booklet__in=filtered_booklets)
 
@@ -72,8 +78,12 @@ def analytics(request):
             else:
                 time_vals.append(sum(time) / len(time))
         print(time_vals)
+        months =["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                 "November", "December"]
+        isEmpty = all(v == 0 for v in error_vals) and all(v == 0 for v in score_vals) and all(v == 0 for v in time_vals)
     return render(request, "analytics.html", {'student_id': studentID_Query,
                                               'error_labels': list(errors.keys()),'error_data': error_vals,
                                               'score_labels': list(scores.keys()),'score_data': score_vals,
-                                              'time_labels': list(times.keys()), 'time_data': time_vals})
+                                              'time_labels': list(times.keys()), 'time_data': time_vals,
+                                              'months' : months, 'isEmpty': isEmpty})
 

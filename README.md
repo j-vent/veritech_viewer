@@ -1,1 +1,1 @@
-# veritech_viewer
+This is a site created for Veritech, a student startup that works to automate marking. It features a records page to view students work per session, showing details of each booklet down to the question. The gradeboook allows markers to add new booklets and modify old entries. The analytics page shows trends in student performance over time.
